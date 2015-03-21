@@ -22,7 +22,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		mContext = getApplicationContext();
-
+		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
+		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 	}
 
 	@Override
