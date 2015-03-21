@@ -166,10 +166,9 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
         public static final int infomation=0x7f020001;
-        public static final int setting_24x24=0x7f020002;
-        public static final int setting_32x32=0x7f020003;
-        public static final int setting_48x48px=0x7f020004;
-        public static final int setting_64x64px=0x7f020005;
+        public static final int setting_32x32=0x7f020002;
+        public static final int shooting_normal=0x7f020003;
+        public static final int shooting_selected=0x7f020004;
     }
     public static final class id {
         public static final int action_settings=0x7f060002;
