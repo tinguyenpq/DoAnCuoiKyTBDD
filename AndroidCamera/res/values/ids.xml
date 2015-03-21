@@ -2,4 +2,8 @@
 <resources>
     <item name="image_setting" type="id"></item>
     <item name="image_gallery" type="id"></item>
+    
+    
+    <item name="image_shooting" type="id"></item>
+    <item name="image_effect" type="id"></item>
 </resources>
