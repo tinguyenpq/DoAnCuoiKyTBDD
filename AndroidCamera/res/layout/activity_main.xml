@@ -9,16 +9,6 @@
     tools:context="vn.tdt.androidcamera.MainActivity" >
 
     <ImageView
-        android:id="@id/image_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="14dp"
-        android:src="@drawable/setting_32x32" />
-
-    <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,5 +31,15 @@
         android:layout_alignLeft="@id/image_setting"
         android:layout_alignTop="@+id/imageView1"
         android:src="@drawable/effect_camera" />
+
+    <ImageView
+        android:id="@id/image_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="17dp"
+        android:src="@drawable/setting" />
 
 </RelativeLayout>
