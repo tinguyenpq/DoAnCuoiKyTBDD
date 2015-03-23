@@ -7,11 +7,8 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
-=======
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
->>>>>>> origin/master
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,12 +44,14 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		//Hinh Anh
+		 //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		 
 		// getWindow().setFormat(PixelFormat.UNKNOWN);
 		surfaceView = (SurfaceView) findViewById(R.id.camerapreview);
 		surfaceHolder = surfaceView.getHolder();
 		surfaceHolder.addCallback(this);
-		// surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
+		 surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		controlInflater = LayoutInflater.from(getBaseContext());
 		View viewControl = controlInflater
 				.inflate(R.layout.activity_main, null);
@@ -74,17 +73,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		imgViewCapture.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect.setOnClickListener(mGlobal_OnClickListener);
 	}
-<<<<<<< HEAD
 
-	/*
-	 * @Override public boolean onCreateOptionsMenu(Menu menu) {
-	 * getMenuInflater().inflate(R.menu.main, menu); return true; }
-	 * 
-	 * @Override public boolean onOptionsItemSelected(MenuItem item) { int id =
-	 * item.getItemId(); if (id == R.id.action_settings) { return true; } return
-	 * super.onOptionsItemSelected(item); }
-	 */
-=======
 
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
@@ -117,7 +106,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		camera = null;
 		previewing = false;
 	}
->>>>>>> origin/master
 
 	final OnClickListener mGlobal_OnClickListener = new OnClickListener() {
 		@Override
@@ -139,24 +127,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 		}
 	};
-<<<<<<< HEAD
-	
-	
-=======
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
->>>>>>> origin/master
 }
