@@ -14,7 +14,11 @@
         android:layout_height="fill_parent" />
 
     <ImageView
+<<<<<<< HEAD
         android:id="@id/image_shooting"
+=======
+        android:id="@+id/imgViewCapture"
+>>>>>>> origin/master
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -40,6 +44,7 @@
         android:src="@drawable/setting" />
 
     <ImageView
+<<<<<<< HEAD
         android:id="@id/image_effect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,3 +53,13 @@
         android:src="@drawable/effect_camera" />
 
 </RelativeLayout>
+=======
+        android:id="@+id/imgViewEffect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgViewCapture"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/effect_camera" />
+
+</RelativeLayout>
+>>>>>>> origin/master

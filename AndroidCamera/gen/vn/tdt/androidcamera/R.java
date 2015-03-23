@@ -174,16 +174,25 @@ public final class R {
         public static final int shooting_selected=0x7f020007;
     }
     public static final class id {
+<<<<<<< HEAD
         public static final int action_settings=0x7f060005;
         public static final int camera_preview=0x7f060004;
+=======
+        public static final int action_settings=0x7f060007;
+        public static final int camerapreview=0x7f060006;
+>>>>>>> origin/master
         public static final int image_effect=0x7f060003;
         public static final int image_gallery=0x7f060001;
         public static final int image_setting=0x7f060000;
         public static final int image_shooting=0x7f060002;
+        public static final int imgViewCapture=0x7f060004;
+        public static final int imgViewEffect=0x7f060005;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_photo_gallery=0x7f030001;
+        public static final int main=0x7f030002;
+        public static final int test=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f090000;
