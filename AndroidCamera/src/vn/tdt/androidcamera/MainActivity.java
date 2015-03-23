@@ -3,6 +3,7 @@ package vn.tdt.androidcamera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ public class MainActivity extends Activity {
 	private ImageView mImageGallery;
 	private ImageView mImageSetting;
 	private Context mContext;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +31,15 @@ public class MainActivity extends Activity {
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 	}
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
+	/*
+	 * @Override public boolean onCreateOptionsMenu(Menu menu) {
+	 * getMenuInflater().inflate(R.menu.main, menu); return true; }
+	 * 
+	 * @Override public boolean onOptionsItemSelected(MenuItem item) { int id =
+	 * item.getItemId(); if (id == R.id.action_settings) { return true; } return
+	 * super.onOptionsItemSelected(item); }
+	 */
 
 	final OnClickListener mGlobal_OnClickListener = new OnClickListener() {
 		@Override
@@ -58,4 +54,6 @@ public class MainActivity extends Activity {
 
 		}
 	};
+	
+	
 }
