@@ -43,12 +43,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.main);
+		setContentView(R.layout.activity_surface);
 		//Hinh Anh
 		 //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		 
 		// getWindow().setFormat(PixelFormat.UNKNOWN);
-		surfaceView = (SurfaceView) findViewById(R.id.camerapreview);
+		surfaceView = (SurfaceView) findViewById(R.id.cameraPreview);
 		surfaceHolder = surfaceView.getHolder();
 		surfaceHolder.addCallback(this);
 		 surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -116,13 +116,13 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 			}
 			if (v.getId() == mImageSetting.getId()) {
-				Toast.makeText(getApplicationContext(), "setting ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Setting ", Toast.LENGTH_SHORT).show();
 			}
 			if(v.getId()== imgViewCapture.getId()){
-				Toast.makeText(getApplicationContext(), "catured", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Catured", Toast.LENGTH_SHORT).show();
 			}
 			if(v.getId()== imgViewEffect.getId()){
-				Toast.makeText(getApplicationContext(), "effect", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Effect", Toast.LENGTH_SHORT).show();
 			}
 
 		}
