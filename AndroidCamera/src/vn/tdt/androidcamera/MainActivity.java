@@ -103,6 +103,15 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	public void surfaceCreated(SurfaceHolder arg0) {
 		camera = Camera.open();
 		camera.setDisplayOrientation(90);
+		 Camera.Parameters params= camera.getParameters();
+		   surfaceView.getLayoutParams().width=params.getPreviewSize().height;
+		   surfaceView.getLayoutParams().height=params.getPreviewSize().width;
+		   int picH = params.getPictureSize().height;
+		   int picW = params.getPictureSize().width;
+		   int preH = params.getPreviewSize().height;
+		   int preW = params.getPreviewSize().width;
+		   float scale = ((float)(picH*preW)) / ((float)(picW*preH));
+		   params.setPictureSize(picW, picH);
 	}
 
 	@Override
@@ -132,11 +141,16 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 					@Override
 					public void onPictureTaken(byte[] data, Camera cam) {
 						BitmapFactory.Options option = new Options();
-						option.inSampleSize=3;
+						option.inSampleSize=0;
+						option.inPreferQualityOverSpeed=true;
+						option.inSampleSize=0;
+						option.inScaled=true;
+						
 						Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length,option);
+						Ultilities.takePictureHandler(b);
 						mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(b, 64, 64, false));
 						//String path =Environment.getExternalStorageDirectory().toString();
-						Ultilities.takePictureHandler(b);
+						
 						refeshCamera();
 					}
 				});
