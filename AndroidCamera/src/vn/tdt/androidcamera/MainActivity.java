@@ -1,24 +1,29 @@
 package vn.tdt.androidcamera;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.PixelFormat;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,7 +34,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	private ImageView imgViewCapture;
 	private ImageView imgViewEffect;
 	private Context mContext;
-	
 
 	Camera camera;
 	SurfaceView surfaceView;
@@ -43,15 +47,17 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_surface);
-		//Hinh Anh
+		// Hinh Anh
 		 //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		 
+		
 		// getWindow().setFormat(PixelFormat.UNKNOWN);
 		surfaceView = (SurfaceView) findViewById(R.id.cameraPreview);
 		surfaceHolder = surfaceView.getHolder();
 		surfaceHolder.addCallback(this);
-		 surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		//surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
 		controlInflater = LayoutInflater.from(getBaseContext());
 		View viewControl = controlInflater
 				.inflate(R.layout.activity_main, null);
@@ -67,13 +73,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting = (ImageView) findViewById(R.id.image_setting);
 		imgViewCapture = (ImageView) findViewById(R.id.imgViewCapture);
 		imgViewEffect = (ImageView) findViewById(R.id.imgViewEffect);
-		
+
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 		imgViewCapture.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect.setOnClickListener(mGlobal_OnClickListener);
 	}
-
 
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
@@ -97,6 +102,16 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
 		camera = Camera.open();
+		camera.setDisplayOrientation(90);
+		 Camera.Parameters params= camera.getParameters();
+		   surfaceView.getLayoutParams().width=params.getPreviewSize().height;
+		   surfaceView.getLayoutParams().height=params.getPreviewSize().width;
+		   int picH = params.getPictureSize().height;
+		   int picW = params.getPictureSize().width;
+		   int preH = params.getPreviewSize().height;
+		   int preW = params.getPreviewSize().width;
+		   float scale = ((float)(picH*preW)) / ((float)(picW*preH));
+		   params.setPictureSize(picW, picH);
 	}
 
 	@Override
@@ -116,17 +131,52 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 			}
 			if (v.getId() == mImageSetting.getId()) {
-				Toast.makeText(getApplicationContext(), "Setting ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Setting ",
+						Toast.LENGTH_SHORT).show();
 			}
-			if(v.getId()== imgViewCapture.getId()){
-				Toast.makeText(getApplicationContext(), "Catured", Toast.LENGTH_SHORT).show();
+			if (v.getId() == imgViewCapture.getId()) {
+				
+				camera.takePicture(null, null, new PictureCallback() {
+
+					@Override
+					public void onPictureTaken(byte[] data, Camera cam) {
+						BitmapFactory.Options option = new Options();
+						option.inSampleSize=0;
+						option.inPreferQualityOverSpeed=true;
+						option.inSampleSize=0;
+						option.inScaled=true;
+						
+						Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length,option);
+						Ultilities.takePictureHandler(b);
+						mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(b, 64, 64, false));
+						//String path =Environment.getExternalStorageDirectory().toString();
+						
+						refeshCamera();
+					}
+				});
 			}
-			if(v.getId()== imgViewEffect.getId()){
-				Toast.makeText(getApplicationContext(), "Effect", Toast.LENGTH_SHORT).show();
+			if (v.getId() == imgViewEffect.getId()) {
+				Toast.makeText(getApplicationContext(), "Effect",
+						Toast.LENGTH_SHORT).show();
 			}
 
 		}
 	};
+	public void refeshCamera(){
+		if (previewing) {
+			camera.stopPreview();
+			previewing = false;
+		}
 
+		if (camera != null) {
+			try {
+				camera.setPreviewDisplay(surfaceHolder);
+				camera.startPreview();
+				previewing = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

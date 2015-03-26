@@ -10,33 +10,46 @@ import android.view.SurfaceView;
 public class CameraPreview extends SurfaceView implements
 		SurfaceHolder.Callback {
 	private Camera mCamera;
-	private SurfaceHolder mSurfaceHolder;
-	private boolean mPreviewing = false;
+	private SurfaceHolder surfaceHolder;
+	boolean previewing = false;
 
-	public CameraPreview(Context context) {
+	public CameraPreview(Context context,Camera camera) {
 		super(context);
-		// TODO Auto-generated constructor stub
+		 this.mCamera = camera;
+	        this.surfaceHolder = this.getHolder();
+	        this.surfaceHolder.addCallback(this);
+	        this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		mCamera = Camera.open();
+		try {
+            mCamera.setPreviewDisplay(surfaceHolder);
+            mCamera.startPreview();
+        } catch (IOException e) {
+            // left blank for now
+        }
 
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		if (mPreviewing == true) {
+
+
+		if (previewing) {
 			mCamera.stopPreview();
-			mPreviewing = false;
+			previewing = false;
+
 		}
 
 		if (mCamera != null) {
 			try {
-				mCamera.setPreviewDisplay(mSurfaceHolder);
+
+				mCamera.setPreviewDisplay(surfaceHolder);
 				mCamera.startPreview();
-				mPreviewing = true;
+				previewing = true;
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -49,7 +62,7 @@ public class CameraPreview extends SurfaceView implements
 		mCamera.stopPreview();
 		mCamera.release();
 		mCamera = null;
-		mPreviewing = false;
+		previewing = false;
 
 	}
 
