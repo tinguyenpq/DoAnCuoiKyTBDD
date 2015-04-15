@@ -1,4 +1,4 @@
-package vn.tdt.androidcamera;
+package vn.tdt.androidcamera.controllers;
 
 import java.io.IOException;
 
@@ -13,22 +13,22 @@ public class CameraPreview extends SurfaceView implements
 	private SurfaceHolder surfaceHolder;
 	boolean previewing = false;
 
-	public CameraPreview(Context context,Camera camera) {
+	public CameraPreview(Context context, Camera camera) {
 		super(context);
-		 this.mCamera = camera;
-	        this.surfaceHolder = this.getHolder();
-	        this.surfaceHolder.addCallback(this);
-	        this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		this.mCamera = camera;
+		this.surfaceHolder = this.getHolder();
+		this.surfaceHolder.addCallback(this);
+		this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
-            mCamera.setPreviewDisplay(surfaceHolder);
-            mCamera.startPreview();
-        } catch (IOException e) {
-            // left blank for now
-        }
+			mCamera.setPreviewDisplay(surfaceHolder);
+			mCamera.startPreview();
+		} catch (IOException e) {
+			// left blank for now
+		}
 
 	}
 
