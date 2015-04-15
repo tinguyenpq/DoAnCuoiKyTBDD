@@ -35,16 +35,21 @@ public class CameraPreview extends SurfaceView implements
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+
+
 		if (previewing) {
 			mCamera.stopPreview();
 			previewing = false;
+
 		}
 
 		if (mCamera != null) {
 			try {
+
 				mCamera.setPreviewDisplay(surfaceHolder);
 				mCamera.startPreview();
 				previewing = true;
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
