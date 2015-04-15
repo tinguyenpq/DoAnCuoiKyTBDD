@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	private ImageView mImageSetting;
 	private ImageView imgViewCapture;
 	private ImageView imgViewEffect;
+	HorizontalScrollView horizontalScrollViewListEffect;
 	private Context mContext;
 
 	Camera camera;
@@ -59,7 +61,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_surface);
-		
+
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		// getWindow().setFormat(PixelFormat.UNKNOWN);
@@ -82,6 +84,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting = (ImageView) findViewById(R.id.image_setting);
 		imgViewCapture = (ImageView) findViewById(R.id.imgViewCapture);
 		imgViewEffect = (ImageView) findViewById(R.id.imgViewEffect);
+		horizontalScrollViewListEffect =(HorizontalScrollView) findViewById(R.id.horizontalScrollViewListEffect);
 
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
@@ -101,8 +104,10 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				camera.startPreview();
-				Ultilities.toastShow(getApplicationContext(), camera.getParameters().getMaxNumDetectedFaces()+"", Gravity.CENTER);
-				//camera.startFaceDetection();
+				Ultilities.toastShow(getApplicationContext(), camera
+						.getParameters().getMaxNumDetectedFaces() + "",
+						Gravity.CENTER);
+				// camera.startFaceDetection();
 				previewing = true;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -110,25 +115,27 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		}
 
 	}
-	
+
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
-		try{
-		camera = Camera.open();
-		camera.setFaceDetectionListener(faceDetectionListener);
-		camera.setDisplayOrientation(90);
-//		Camera.Parameters params = camera.getParameters();
-//		surfaceView.getLayoutParams().width = params.getPreviewSize().height;
-//		surfaceView.getLayoutParams().height = params.getPreviewSize().width;
-//		int picH = params.getPictureSize().height;
-//		int picW = params.getPictureSize().width;
-//		int preH = params.getPreviewSize().height;
-//		int preW = params.getPreviewSize().width;
-//		float scale = ((float) (picH * preW)) / ((float) (picW * preH));
-//		params.setPictureSize(picW, picH);
-		}
-		catch (RuntimeException e){
-			Ultilities.toastShow(getApplicationContext(),"Camera not open!",Gravity.CENTER);
+		try {
+			camera = Camera.open();
+			camera.setFaceDetectionListener(faceDetectionListener);
+			camera.setDisplayOrientation(90);
+			// Camera.Parameters params = camera.getParameters();
+			// surfaceView.getLayoutParams().width =
+			// params.getPreviewSize().height;
+			// surfaceView.getLayoutParams().height =
+			// params.getPreviewSize().width;
+			// int picH = params.getPictureSize().height;
+			// int picW = params.getPictureSize().width;
+			// int preH = params.getPreviewSize().height;
+			// int preW = params.getPreviewSize().width;
+			// float scale = ((float) (picH * preW)) / ((float) (picW * preH));
+			// params.setPictureSize(picW, picH);
+		} catch (RuntimeException e) {
+			Ultilities.toastShow(getApplicationContext(), "Camera not open!",
+					Gravity.CENTER);
 		}
 	}
 
@@ -141,37 +148,40 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		previewing = false;
 	}
 
-	
-	 FaceDetectionListener faceDetectionListener
-	    = new FaceDetectionListener(){
-			@Override
-			public void onFaceDetection(Face[] faces, Camera camera) {
-				
-				if (faces.length == 0){
-					Ultilities.toastShow(getApplicationContext()," no faces detected", Gravity.CENTER);
-				}else{
-					//prompt.setText(String.valueOf(faces.length) + " Face Detected :) ");
-					Ultilities.toastShow(getApplicationContext(),faces.length+" faces detected", Gravity.CENTER);
-				}
-				
-			}};
-	    
-	    AutoFocusCallback myAutoFocusCallback = new AutoFocusCallback(){
+	FaceDetectionListener faceDetectionListener = new FaceDetectionListener() {
+		@Override
+		public void onFaceDetection(Face[] faces, Camera camera) {
 
-			@Override
-			public void onAutoFocus(boolean arg0, Camera arg1) {
-				// TODO Auto-generated method stub
-			}};
-	    
-			
-		PictureCallback myPictureCallback_RAW = new PictureCallback(){
+			if (faces.length == 0) {
+				Ultilities.toastShow(getApplicationContext(),
+						" no faces detected", Gravity.CENTER);
+			} else {
+				// prompt.setText(String.valueOf(faces.length) +
+				// " Face Detected :) ");
+				Ultilities.toastShow(getApplicationContext(), faces.length
+						+ " faces detected", Gravity.CENTER);
+			}
 
-			@Override
-			public void onPictureTaken(byte[] arg0, Camera arg1) {
-				// TODO Auto-generated method stub
-				
-			}};
-			
+		}
+	};
+
+	AutoFocusCallback myAutoFocusCallback = new AutoFocusCallback() {
+
+		@Override
+		public void onAutoFocus(boolean arg0, Camera arg1) {
+			// TODO Auto-generated method stub
+		}
+	};
+
+	PictureCallback myPictureCallback_RAW = new PictureCallback() {
+
+		@Override
+		public void onPictureTaken(byte[] arg0, Camera arg1) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
 	final OnClickListener mGlobal_OnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -185,12 +195,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 						Toast.LENGTH_SHORT).show();
 			}
 			if (v.getId() == imgViewCapture.getId()) {
-			
+
 				camera.takePicture(null, null, new PictureCallback() {
-					
+
 					@Override
 					public void onPictureTaken(byte[] data, Camera cam) {
-						
+
 						BitmapFactory.Options option = new Options();
 						option.inSampleSize = 0;
 						option.inPreferQualityOverSpeed = true;
@@ -212,6 +222,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			if (v.getId() == imgViewEffect.getId()) {
 				Toast.makeText(getApplicationContext(), "Effect",
 						Toast.LENGTH_SHORT).show();
+				horizontalScrollViewListEffect.setVisibility(View.VISIBLE);
+				
 			}
 
 		}
