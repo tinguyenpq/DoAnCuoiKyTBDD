@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="image_setting" type="id"></item>
+    <item name="image_gallery" type="id"></item>
+    <item name="image_shooting" type="id"></item>
+    <item name="image_effect" type="id"></item>
+    <item name="camera_preview" type="id"></item>
+
+</resources>
