@@ -90,6 +90,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 		imgViewCapture.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect.setOnClickListener(mGlobal_OnClickListener);
+		surfaceView.setOnClickListener(mGlobal_OnClickListener);
 	}
 
 	@Override
@@ -222,8 +223,21 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			if (v.getId() == imgViewEffect.getId()) {
 				Toast.makeText(getApplicationContext(), "Effect",
 						Toast.LENGTH_SHORT).show();
+				
+				
+				mImageGallery.setVisibility(View.GONE);
+				imgViewCapture.setVisibility(View.GONE);
+				imgViewEffect.setVisibility(View.GONE);
 				horizontalScrollViewListEffect.setVisibility(View.VISIBLE);
 				
+			}
+			if(v.getId()==surfaceView.getId()){
+				if(horizontalScrollViewListEffect.getVisibility()==View.VISIBLE){
+					horizontalScrollViewListEffect.setVisibility(View.GONE);
+					mImageGallery.setVisibility(View.VISIBLE);
+					imgViewCapture.setVisibility(View.VISIBLE);
+					imgViewEffect.setVisibility(View.VISIBLE);
+				}
 			}
 
 		}
