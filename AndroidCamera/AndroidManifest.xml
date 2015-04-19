@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="vn.tdt.androidcamera.controllers.PhotoGalleryActivity" >
+        <activity android:name="PhotoGalleryActivity" >
         </activity>
     </application>
 

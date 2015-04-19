@@ -84,15 +84,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting = (ImageView) findViewById(R.id.image_setting);
 		imgViewCapture = (ImageView) findViewById(R.id.imgViewCapture);
 		imgViewEffect = (ImageView) findViewById(R.id.imgViewEffect);
-		horizontalScrollViewListEffect = (HorizontalScrollView) findViewById(R.id.horizontalScrollViewListEffect);
+		horizontalScrollViewListEffect =(HorizontalScrollView) findViewById(R.id.horizontalScrollViewListEffect);
 
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 		imgViewCapture.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect.setOnClickListener(mGlobal_OnClickListener);
-		horizontalScrollViewListEffect
-				.setOnClickListener(mGlobal_OnClickListener);
-		surfaceView.setOnClickListener(mGlobal_OnClickListener);
 	}
 
 	@Override
@@ -107,9 +104,9 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			try {
 				camera.setPreviewDisplay(surfaceHolder);
 				camera.startPreview();
-				// Ultilities.toastShow(getApplicationContext(), camera
-				// .getParameters().getMaxNumDetectedFaces() + "",
-				// Gravity.CENTER);
+				Ultilities.toastShow(getApplicationContext(), camera
+						.getParameters().getMaxNumDetectedFaces() + "",
+						Gravity.CENTER);
 				// camera.startFaceDetection();
 				previewing = true;
 			} catch (IOException e) {
@@ -161,8 +158,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			} else {
 				// prompt.setText(String.valueOf(faces.length) +
 				// " Face Detected :) ");
-				// Ultilities.toastShow(getApplicationContext(), faces.length
-				// + " faces detected", Gravity.CENTER);
+				Ultilities.toastShow(getApplicationContext(), faces.length
+						+ " faces detected", Gravity.CENTER);
 			}
 
 		}
@@ -225,20 +222,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			if (v.getId() == imgViewEffect.getId()) {
 				Toast.makeText(getApplicationContext(), "Effect",
 						Toast.LENGTH_SHORT).show();
-
-				mImageGallery.setVisibility(View.GONE);
-				imgViewCapture.setVisibility(View.GONE);
-				imgViewEffect.setVisibility(View.GONE);
 				horizontalScrollViewListEffect.setVisibility(View.VISIBLE);
-
-			}
-			if (v.getId() == surfaceView.getId()) {
-				if (horizontalScrollViewListEffect.getVisibility() == View.VISIBLE) {
-					horizontalScrollViewListEffect.setVisibility(View.GONE);
-					mImageGallery.setVisibility(View.VISIBLE);
-					imgViewCapture.setVisibility(View.VISIBLE);
-					imgViewEffect.setVisibility(View.VISIBLE);
-				}
+				
 			}
 
 		}
