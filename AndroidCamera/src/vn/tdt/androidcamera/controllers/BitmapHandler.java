@@ -1,6 +1,5 @@
 package vn.tdt.androidcamera.controllers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -28,15 +27,5 @@ public class BitmapHandler {
 
 	public static Bitmap convertImageToBitmap(String path) {
 		return BitmapFactory.decodeFile(path);
-	}
-	
-	public static byte[] convertBitMapToByteArray(Bitmap bmp){
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		return stream.toByteArray();
-	}
-	
-	public static Bitmap convertByteArrayToBitmap(byte[] byteArray){
-		return  BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 	}
 }

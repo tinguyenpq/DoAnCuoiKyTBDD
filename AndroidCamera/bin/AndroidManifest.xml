@@ -22,8 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".controllers.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name="vn.tdt.androidcamera.controllers.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.PhotoGalleryActivity" >
-        </activity>
-        <activity
-            android:name=".OptionAfterShutterActivity"
-            android:label="@string/title_activity_option_after_shutter" >
+        <activity android:name="vn.tdt.androidcamera.controllers.PhotoGalleryActivity" >
         </activity>
     </application>
 

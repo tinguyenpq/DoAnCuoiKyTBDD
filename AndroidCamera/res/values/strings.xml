@@ -10,7 +10,5 @@
     <!-- layout gallery -->
     <string name="btn_select"></string>
     <string name="btn_"></string>
-    <string name="title_activity_option_after_shutter">OptionAfterShutterActivity</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -47,15 +47,13 @@ public class Ultilities {
 		}
 		return name;
 	}
-	
-	public static String pathToSave(int option){
+
+	public static void takePictureHandler(Bitmap b) {
 		File sdcard = Environment.getExternalStorageDirectory();
 		File path = new File(sdcard.getAbsolutePath() + "/TdtCamera/");
 		path.mkdir();
-		return path.toString();
-	}
-	public static void takePictureHandler(Bitmap b,String fileName,String path) {
-		BitmapHandler.saveBitmapToJpg(fileName,path, b);
+		String fileName = Ultilities.getFileName(1);
+		BitmapHandler.saveBitmapToJpg(fileName, path.toString(), b);
 	}
 	
 	public static void toastShow(Context c,String str,int gravity){
