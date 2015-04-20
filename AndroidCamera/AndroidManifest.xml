@@ -30,10 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="vn.tdt.androidcamera.tabhost.PhotoGalleryActivity" >
+        <activity android:name=".tabhost.GalleryActivity" >
         </activity>
-        <activity android:name="vn.tdt.androidcamera.tabhost.MyAlbumTabActivity"></activity>
-        <activity android:name="vn.tdt.androidcamera.tabhost.OtherAlbumTabActivity"></activity>
+        <activity android:name=".tabhost.MyAlbumTabActivity"></activity>
+        <activity android:name=".tabhost.OtherAlbumTabActivity"></activity>
     </application>
 
 </manifest>
