@@ -10,5 +10,7 @@
     <!-- layout gallery -->
     <string name="btn_select"></string>
     <string name="btn_"></string>
+    <string name="tab_title_my_album">My Album</string>
+    <string name="tab_title_other_album">Other Album</string>
 
 </resources>

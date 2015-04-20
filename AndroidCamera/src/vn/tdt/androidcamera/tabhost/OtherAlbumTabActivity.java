@@ -1,16 +1,16 @@
-package vn.tdt.androidcamera.controllers;
+package vn.tdt.androidcamera.tabhost;
 
 import vn.tdt.androidcamera.R;
-import vn.tdt.androidcamera.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class PhotoGalleryActivity extends Activity {
+public class OtherAlbumTabActivity extends Activity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_photo_gallery);
-
+		setContentView(R.layout.activity_gallery_other_album);
 	}
+
 }

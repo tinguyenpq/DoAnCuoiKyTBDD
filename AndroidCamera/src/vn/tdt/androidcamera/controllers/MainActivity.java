@@ -8,6 +8,7 @@ import java.util.Date;
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.R.id;
 import vn.tdt.androidcamera.R.layout;
+import vn.tdt.androidcamera.tabhost.GalleryActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -189,7 +190,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == mImageGallery.getId()) {
-				Intent intent = new Intent(mContext, PhotoGalleryActivity.class);
+				Intent intent = new Intent(mContext, GalleryActivity.class);
 				startActivity(intent);
 
 			}

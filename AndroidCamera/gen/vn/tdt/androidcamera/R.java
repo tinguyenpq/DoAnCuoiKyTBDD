@@ -175,33 +175,37 @@ public final class R {
         public static final int shooting_selected=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f060013;
-        public static final int cameraPreview=0x7f060011;
+        public static final int action_settings=0x7f060016;
+        public static final int cameraPreview=0x7f060014;
         public static final int camera_preview=0x7f060004;
-        public static final int horizontalScrollViewListEffect=0x7f060007;
-        public static final int imageView1=0x7f060008;
-        public static final int imageView2=0x7f060009;
-        public static final int imageView3=0x7f06000a;
-        public static final int imageView4=0x7f06000b;
-        public static final int imageView5=0x7f06000c;
-        public static final int imageView6=0x7f06000d;
-        public static final int imageView7=0x7f06000e;
-        public static final int imageView8=0x7f06000f;
-        public static final int imageView9=0x7f060010;
+        public static final int horizontalScrollViewListEffect=0x7f06000a;
+        public static final int imageView1=0x7f06000b;
+        public static final int imageView2=0x7f06000c;
+        public static final int imageView3=0x7f06000d;
+        public static final int imageView4=0x7f06000e;
+        public static final int imageView5=0x7f06000f;
+        public static final int imageView6=0x7f060010;
+        public static final int imageView7=0x7f060011;
+        public static final int imageView8=0x7f060012;
+        public static final int imageView9=0x7f060013;
         public static final int image_effect=0x7f060003;
         public static final int image_gallery=0x7f060001;
         public static final int image_setting=0x7f060000;
         public static final int image_shooting=0x7f060002;
-        public static final int imgViewCapture=0x7f060005;
-        public static final int imgViewEffect=0x7f060006;
-        public static final int textView1=0x7f060012;
+        public static final int imgViewCapture=0x7f060008;
+        public static final int imgViewEffect=0x7f060009;
+        public static final int tab_content_gallery=0x7f060006;
+        public static final int tab_host_gallery=0x7f060007;
+        public static final int tab_widget_gallery=0x7f060005;
+        public static final int textView1=0x7f060015;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_photo_gallery=0x7f030001;
-        public static final int activity_photo_gallery_custom_1=0x7f030002;
-        public static final int activity_surface=0x7f030003;
-        public static final int test=0x7f030004;
+        public static final int activity_gallery=0x7f030000;
+        public static final int activity_gallery_my_album=0x7f030001;
+        public static final int activity_gallery_other_album=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_surface=0x7f030004;
+        public static final int test=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -216,6 +220,8 @@ public final class R {
         /**  layout gallery 
          */
         public static final int btn_select=0x7f070003;
+        public static final int tab_title_my_album=0x7f070005;
+        public static final int tab_title_other_album=0x7f070006;
     }
     public static final class style {
         /** 
