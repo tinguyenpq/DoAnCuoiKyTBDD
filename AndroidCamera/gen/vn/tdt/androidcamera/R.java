@@ -165,14 +165,20 @@ public final class R {
     }
     public static final class drawable {
         public static final int custom_shooting=0x7f020000;
-        public static final int eff01=0x7f020001;
-        public static final int effect_camera=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int image_gallery=0x7f020004;
-        public static final int infomation=0x7f020005;
-        public static final int setting=0x7f020006;
-        public static final int shooting_normal=0x7f020007;
-        public static final int shooting_selected=0x7f020008;
+        public static final int custom_tab_my_album=0x7f020001;
+        public static final int custom_tab_other_album=0x7f020002;
+        public static final int eff01=0x7f020003;
+        public static final int effect_camera=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int image_gallery=0x7f020006;
+        public static final int infomation=0x7f020007;
+        public static final int my_album_normal_64=0x7f020008;
+        public static final int my_album_selected_64=0x7f020009;
+        public static final int other_album_normal_64=0x7f02000a;
+        public static final int other_album_selected_64=0x7f02000b;
+        public static final int setting=0x7f02000c;
+        public static final int shooting_normal=0x7f02000d;
+        public static final int shooting_selected=0x7f02000e;
     }
     public static final class id {
         public static final int action_settings=0x7f060016;

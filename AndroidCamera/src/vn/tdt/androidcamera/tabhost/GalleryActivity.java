@@ -21,18 +21,18 @@ public class GalleryActivity extends Activity {
 		mTabHost.setup();
 
 		// Tab for My album tab
-		TabSpec myAlbumSpec = mTabHost.newTabSpec("Photos");
+		TabSpec myAlbumSpec = mTabHost.newTabSpec("MyAlbum");
 		// setting Title and Icon for the Tab
-		// photospec.setIndicator("Photos",
-		// getResources().getDrawable(R.drawable.icon_photos_tab));
+		myAlbumSpec.setIndicator("My Album",
+				getResources().getDrawable(R.drawable.custom_tab_my_album));
 		Intent myAlbumIntent = new Intent(this, MyAlbumTabActivity.class);
 		myAlbumSpec.setContent(myAlbumIntent);
 
 		// Tab for Other album tab
-		TabSpec otherAlbumSpec = mTabHost.newTabSpec("Photos");
+		TabSpec otherAlbumSpec = mTabHost.newTabSpec("OtherAlbum");
 		// setting Title and Icon for the Tab
-		// photospec.setIndicator("Photos",
-		// getResources().getDrawable(R.drawable.icon_photos_tab));
+		myAlbumSpec.setIndicator("My Album",
+				getResources().getDrawable(R.drawable.custom_tab_other_album));
 		Intent otherAlbumIntent = new Intent(this, OtherAlbumTabActivity.class);
 		myAlbumSpec.setContent(otherAlbumIntent);
 
