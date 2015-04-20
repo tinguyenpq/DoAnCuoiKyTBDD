@@ -50,7 +50,7 @@ public class Ultilities {
 
 	public static void takePictureHandler(Bitmap b) {
 		File sdcard = Environment.getExternalStorageDirectory();
-		File path = new File(sdcard.getAbsolutePath() + "/TdtCamera/");
+		File path = new File(sdcard.getAbsolutePath() + "/CameraBubble/");
 		path.mkdir();
 		String fileName = Ultilities.getFileName(1);
 		BitmapHandler.saveBitmapToJpg(fileName, path.toString(), b);
