@@ -10,12 +10,9 @@
     <!-- layout gallery -->
     <string name="btn_select"></string>
     <string name="btn_"></string>
-<<<<<<< HEAD
     <string name="title_activity_option_after_shutter">OptionAfterShutterActivity</string>
     <string name="hello_world">Hello world!</string>
-=======
     <string name="tab_title_my_album">My Album</string>
     <string name="tab_title_other_album">Other Album</string>
->>>>>>> origin/master
 
 </resources>

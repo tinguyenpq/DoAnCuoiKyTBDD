@@ -31,17 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".controllers.PhotoGalleryActivity" >
         </activity>
         <activity
             android:name="vn.tdt.androidcamera.controllers.OptionAfterShutterActivity"
             android:label="@string/title_activity_option_after_shutter" >
-=======
-        <activity android:name="vn.tdt.androidcamera.tabactionbar.GalleryActivity" >
->>>>>>> origin/master
         </activity>
-       
+        <activity android:name="vn.tdt.androidcamera.tabactionbar.GalleryActivity" >
+        </activity>
     </application>
 
 </manifest>
