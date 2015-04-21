@@ -8,6 +8,7 @@ import java.util.Date;
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.R.id;
 import vn.tdt.androidcamera.R.layout;
+import vn.tdt.androidcamera.models.SharedPreferencesModels;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -39,18 +40,35 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
+	public final static String LASTEST_PHOTO = "lastest_photo";
+	public final static String DEFAULT_PATH = "/mnt/sdcard/TdtCamera";
+
 	private ImageView mImageGallery;
 	private ImageView mImageSetting;
 	private ImageView imgViewCapture;
 	private ImageView imgViewEffect;
-	HorizontalScrollView horizontalScrollViewListEffect;
 	private Context mContext;
+	HorizontalScrollView horizontalScrollViewListEffect;
+
+	ImageView imgViewEffect1;
+	ImageView imgViewEffect2;
+	ImageView imgViewEffect3;
+	ImageView imgViewEffect4;
+	ImageView imgViewEffect5;
+	ImageView imgViewEffect6;
+	ImageView imgViewEffect7;
+	ImageView imgViewEffect8;
+	ImageView imgViewEffect9;
 
 	Camera camera;
 	SurfaceView surfaceView;
 	SurfaceHolder surfaceHolder;
 	boolean previewing = false;
 	LayoutInflater controlInflater = null;
+	String lastestPhotoTaken;
+
+	// To save or get data from xml file
+	SharedPreferencesModels prm;
 
 	@SuppressWarnings("deprecation")
 	@SuppressLint("InflateParams")
@@ -84,7 +102,20 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting = (ImageView) findViewById(R.id.image_setting);
 		imgViewCapture = (ImageView) findViewById(R.id.imgViewCapture);
 		imgViewEffect = (ImageView) findViewById(R.id.imgViewEffect);
+
+		// preferences for put and get data from xml file
+		prm = new SharedPreferencesModels(mContext);
+
 		horizontalScrollViewListEffect = (HorizontalScrollView) findViewById(R.id.horizontalScrollViewListEffect);
+		imgViewEffect1 = (ImageView) findViewById(R.id.ivEff1);
+		imgViewEffect2 = (ImageView) findViewById(R.id.ivEff2);
+		imgViewEffect3 = (ImageView) findViewById(R.id.ivEff3);
+		imgViewEffect4 = (ImageView) findViewById(R.id.ivEff4);
+		imgViewEffect5 = (ImageView) findViewById(R.id.ivEff5);
+		imgViewEffect6 = (ImageView) findViewById(R.id.ivEff6);
+		imgViewEffect7 = (ImageView) findViewById(R.id.ivEff7);
+		imgViewEffect8 = (ImageView) findViewById(R.id.ivEff8);
+		imgViewEffect9 = (ImageView) findViewById(R.id.ivEff9);
 
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
@@ -93,6 +124,18 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		horizontalScrollViewListEffect
 				.setOnClickListener(mGlobal_OnClickListener);
 		surfaceView.setOnClickListener(mGlobal_OnClickListener);
+
+		imgViewEffect1.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect2.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect3.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect4.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect5.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect6.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect7.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect8.setOnClickListener(mGlobal_OnClickListener);
+		imgViewEffect9.setOnClickListener(mGlobal_OnClickListener);
+
+		lastestPhotoTaken = prm.getStringValue(LASTEST_PHOTO);
 	}
 
 	@Override
@@ -189,7 +232,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == mImageGallery.getId()) {
-				Intent intent = new Intent(mContext, PhotoGalleryActivity.class);
+				Intent intent = new Intent(mContext, OptionAfterShutterActivity.class);
 				startActivity(intent);
 
 			}
@@ -209,16 +252,36 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 						option.inPreferQualityOverSpeed = true;
 						option.inSampleSize = 0;
 						option.inScaled = true;
-
+						
 						Bitmap b = BitmapFactory.decodeByteArray(data, 0,
 								data.length, option);
-						Ultilities.takePictureHandler(b);
+						
+						String fileName = Ultilities.getFileName(1);
+						String path = Ultilities.pathToSave(1);
+						//Ultilities.takePictureHandler(b, fileName, path);
+
+						// save lastest photo to file
+						prm.saveStringValue(LASTEST_PHOTO, fileName);
+						Ultilities.toastShow(mContext,
+								prm.getStringValue(LASTEST_PHOTO)
+										+ " has saved " + path, Gravity.CENTER);
+
+						// set screenshot photo was taken recently to ImageView
 						mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(
 								b, 64, 64, false));
-						// String path
-						// =Environment.getExternalStorageDirectory().toString();
+						
+						Intent intentPhotoTaken = new Intent(mContext,OptionAfterShutterActivity.class);
+						Bundle bundle=new Bundle();
+						 bundle.putByteArray("image", BitmapHandler.convertBitMapToByteArray(b));
+						 bundle.putString("path",path);
+						 bundle.putString("fileName", fileName);
+						 
+						 //Đưa Bundle vào Intent
+						 intentPhotoTaken.putExtra("PhotoTakenPackage", bundle);
+						 startActivity(intentPhotoTaken);
+						 finish();
 
-						refeshCamera();
+						//refeshCamera();
 					}
 				});
 			}
@@ -239,6 +302,14 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 					imgViewCapture.setVisibility(View.VISIBLE);
 					imgViewEffect.setVisibility(View.VISIBLE);
 				}
+			}
+
+			if (v.getId() == imgViewEffect1.getId()) {
+				prm.saveIntValue("current_effect", 5);
+			}
+			if (v.getId() == imgViewEffect2.getId()) {
+				Ultilities.toastShow(mContext,
+						prm.getIntValue("current_effect") + "", Gravity.CENTER);
 			}
 
 		}
