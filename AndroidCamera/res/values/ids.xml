@@ -6,5 +6,8 @@
     <item name="image_shooting" type="id"></item>
     <item name="image_effect" type="id"></item>
     <item name="camera_preview" type="id"></item>
+    <item name="tab_widget_gallery" type="id"></item>
+    <item name="tab_content_gallery" type="id"></item>
+    <item name="tab_host_gallery" type="id"></item>
 
 </resources>

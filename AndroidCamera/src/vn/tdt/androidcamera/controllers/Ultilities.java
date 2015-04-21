@@ -50,7 +50,7 @@ public class Ultilities {
 	
 	public static String pathToSave(int option){
 		File sdcard = Environment.getExternalStorageDirectory();
-		File path = new File(sdcard.getAbsolutePath() + "/TdtCamera/");
+		File path = new File(sdcard.getAbsolutePath() + "/CameraBubble/");
 		path.mkdir();
 		return path.toString();
 	}
