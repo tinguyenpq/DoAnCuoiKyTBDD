@@ -7,21 +7,17 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
 
 public class GalleryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_gallery);
+		setContentView(R.layout.activity_gallery);
 
 		ActionBar actionBar = getActionBar();
-
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		String tabTitleMyAlbum = getResources().getString(
@@ -43,8 +39,7 @@ public class GalleryActivity extends Activity {
 				this, tabTitleOtherAlbum, TabOtherAlbumFragment.class);
 		tab.setTabListener(tabOtherAlbum);
 		actionBar.addTab(tab);
-		
-		
+
 	}
 
 	private class TabListener<T extends Fragment> implements
@@ -62,6 +57,13 @@ public class GalleryActivity extends Activity {
 
 		@Override
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+
 			// Check if the fragment is already initialized
 			if (mFragment == null) {
 				// If not, instantiate and add it to the activity
@@ -75,16 +77,12 @@ public class GalleryActivity extends Activity {
 		}
 
 		@Override
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+
 			if (mFragment != null) {
 				// Detach the fragment, because another one is being attached
 				ft.detach(mFragment);
 			}
-		}
-
-		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			// TODO Auto-generated method stub
 
 		}
 	}
