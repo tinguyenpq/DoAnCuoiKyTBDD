@@ -47,20 +47,21 @@ public class Ultilities {
 		}
 		return name;
 	}
-	
-	public static String pathToSave(int option){
+
+	public static String pathToSave(int option) {
 		File sdcard = Environment.getExternalStorageDirectory();
 		File path = new File(sdcard.getAbsolutePath() + "/CameraBubble/");
 		path.mkdir();
 		return path.toString();
 	}
-	public static void takePictureHandler(Bitmap b,String fileName,String path) {
-		BitmapHandler.saveBitmapToJpg(fileName,path, b);
+
+	public static void takePictureHandler(Bitmap b, String fileName, String path) {
+		BitmapHandler.saveBitmapToJpg(fileName, path, b);
 	}
-	
-	public static void toastShow(Context c,String str,int gravity){
-		Toast  t = Toast.makeText(c, str, Toast.LENGTH_SHORT);
-		t.setGravity(gravity, 0,0);
+
+	public static void toastShow(Context c, String str, int gravity) {
+		Toast t = Toast.makeText(c, str, Toast.LENGTH_SHORT);
+		t.setGravity(gravity, 0, 0);
 		t.show();
 	}
 }
