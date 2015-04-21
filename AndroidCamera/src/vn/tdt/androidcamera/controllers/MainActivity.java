@@ -8,7 +8,7 @@ import java.util.Date;
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.R.id;
 import vn.tdt.androidcamera.R.layout;
-import vn.tdt.androidcamera.tabhost.GalleryActivity;
+import vn.tdt.androidcamera.tabactionbar.GalleryActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
