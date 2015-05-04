@@ -14,5 +14,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="tab_title_my_album">My Album</string>
     <string name="tab_title_other_album">Other Album</string>
+    <string name="title_activity_photo_editor_main">PhotoEditorMain</string>
 
 </resources>

@@ -8,6 +8,7 @@ import java.util.Date;
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.R.id;
 import vn.tdt.androidcamera.R.layout;
+import vn.tdt.androidcamera.constant.PathConstant;
 import vn.tdt.androidcamera.models.SharedPreferencesModels;
 import vn.tdt.androidcamera.tabactionbar.GalleryActivity;
 import android.annotation.SuppressLint;
@@ -40,9 +41,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
-	public final static String LASTEST_PHOTO = "lastest_photo";
-	public final static String DEFAULT_PATH = "/mnt/sdcard/TdtCamera";
-
+	
 	private ImageView mImageGallery;
 	private ImageView mImageSetting;
 	private ImageView imgViewCapture;
@@ -135,7 +134,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		imgViewEffect8.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect9.setOnClickListener(mGlobal_OnClickListener);
 
-		lastestPhotoTaken = prm.getStringValue(LASTEST_PHOTO);
+		lastestPhotoTaken = prm.getStringValue(PathConstant.LASTEST_PHOTO);
 	}
 
 	@Override
@@ -232,7 +231,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == mImageGallery.getId()) {
-				Intent intent = new Intent(mContext, GalleryActivity.class);
+				//Intent intent = new Intent(mContext, GalleryActivity.class);
+				Intent intent = new Intent(mContext, PhotoEditorMain.class);
 				startActivity(intent);
 
 			}
@@ -252,36 +252,43 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 						option.inPreferQualityOverSpeed = true;
 						option.inSampleSize = 0;
 						option.inScaled = true;
-						
+
 						Bitmap b = BitmapFactory.decodeByteArray(data, 0,
 								data.length, option);
-						
+
+						// file name to save
 						String fileName = Ultilities.getFileName(1);
+
+						// path to store photo taken
 						String path = Ultilities.pathToSave(1);
-						//Ultilities.takePictureHandler(b, fileName, path);
+
+						// Ultilities.takePictureHandler(b, fileName, path);
 
 						// save lastest photo to file
-						prm.saveStringValue(LASTEST_PHOTO, fileName);
-						Ultilities.toastShow(mContext,
-								prm.getStringValue(LASTEST_PHOTO)
-										+ " has saved " + path, Gravity.CENTER);
+						prm.saveStringValue(PathConstant.LASTEST_PHOTO, fileName);
+
+						// Ultilities.toastShow(mContext,
+						// prm.getStringValue(LASTEST_PHOTO)
+						// + " has saved " + path, Gravity.CENTER);
 
 						// set screenshot photo was taken recently to ImageView
 						mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(
 								b, 64, 64, false));
-						
-						Intent intentPhotoTaken = new Intent(mContext,OptionAfterShutterActivity.class);
-						Bundle bundle=new Bundle();
-						 bundle.putByteArray("image", BitmapHandler.convertBitMapToByteArray(b));
-						 bundle.putString("path",path);
-						 bundle.putString("fileName", fileName);
-						 
-						 //Đưa Bundle vào Intent
-						 intentPhotoTaken.putExtra("PhotoTakenPackage", bundle);
-						 startActivity(intentPhotoTaken);
-						 finish();
 
-						//refeshCamera();
+						Intent intentPhotoTaken = new Intent(mContext,
+								OptionAfterShutterActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putByteArray("image",
+								BitmapHandler.convertBitMapToByteArray(b));
+						bundle.putString("path", path);
+						bundle.putString("fileName", fileName);
+
+						// Đưa Bundle vào Intent
+						intentPhotoTaken.putExtra("PhotoTakenPackage", bundle);
+						startActivity(intentPhotoTaken);
+						finish();
+
+						// refeshCamera();
 					}
 				});
 			}

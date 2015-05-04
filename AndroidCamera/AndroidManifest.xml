@@ -34,10 +34,14 @@
         <activity android:name=".controllers.PhotoGalleryActivity" >
         </activity>
         <activity
-            android:name="vn.tdt.androidcamera.controllers.OptionAfterShutterActivity"
+            android:name=".controllers.OptionAfterShutterActivity"
             android:label="@string/title_activity_option_after_shutter" >
         </activity>
-        <activity android:name="vn.tdt.androidcamera.tabactionbar.GalleryActivity" >
+        <activity android:name=".tabactionbar.GalleryActivity" >
+        </activity>
+        <activity
+            android:name="vn.tdt.androidcamera.controllers.PhotoEditorMain"
+            android:label="@string/title_activity_photo_editor_main" >
         </activity>
     </application>
 

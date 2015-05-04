@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -29,8 +31,13 @@ public class OptionAfterShutterActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		//Remove title bar 
+//		 this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		    //Remove notification bar 
+//		    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_option_after_shutter);
-
+		 
+	 
 		imgViewOptionAfterShutter = (ImageView) findViewById(R.id.imgViewOptionAfterShutter);
 		btnSave = (Button) findViewById(R.id.btnSave);
 		btnEdit = (Button) findViewById(R.id.btnEdit);
@@ -64,6 +71,10 @@ public class OptionAfterShutterActivity extends Activity {
 			}
 			if (v.getId() == btnCancel.getId()) {
 				backMainActivity();
+			}
+			if (v.getId() == btnEdit.getId()) {
+				Intent i = new Intent(context,PhotoEditorMain.class);
+				startActivity(i);
 			}
 		}
 
