@@ -1,5 +1,6 @@
 package vn.tdt.androidcamera.controllers;
 
+import vn.tdt.androidcamera.models.ConvolutionMatrix;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
@@ -394,7 +395,37 @@ public class PhotoEffectHandler {
 		    bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
 		    return bmOut;       
 		}
+		
+		public static Bitmap applySaturationFilter(Bitmap source, double level) {
+			// get original image size
+			int width = source.getWidth();
+			int height = source.getHeight();
+			int[] pixels = new int[width * height];
+			float[] HSV = new float[3];
+			// get pixel array from source image
+			source.getPixels(pixels, 0, width, 0, 0, width, height);
 
+			int index = 0;
+			// iteration through all pixels
+			for (int y = 0; y < height; ++y) {
+				for (int x = 0; x < width; ++x) {
+					// get current index in 2D-matrix
+					index = y * width + x;
+					// convert to HSV
+					Color.colorToHSV(pixels[index], HSV);
+					// increase Saturation level
+					HSV[1] *= level;
+					HSV[1] = (float) Math.max(0.0, Math.min(HSV[1], 1.0));
+					// take color back
+					pixels[index] = Color.HSVToColor(HSV);
+				}
+			}
+			// output bitmap
+			Bitmap bmOut = Bitmap.createBitmap(width, height,
+					Bitmap.Config.ARGB_8888);
+			bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+			return bmOut;
+		}
 		// make shadow
 		public static Bitmap applyReflection(Bitmap originalImage) {
 		    // gap space between original and reflected
@@ -438,5 +469,23 @@ public class PhotoEffectHandler {
 		    canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
 		             
 		    return bitmapWithReflection;
+		}
+		
+		public static Bitmap applyGaussianBlur(Bitmap src, int red, int green) {
+			// double[][] GaussianBlurConfig = new double[][] { { 1, 2, 1 },
+			// { 2, 4, 2 }, { 1, 2, 1 } };
+			// 1 2 1
+			// 2 4 2
+			// 1 2 1
+			// double[][] GaussianBlurConfig = new double[][] { { -1, -1, -1 },
+			// { -1, 9, -1 }, { -1, -1, -1 } };
+			double GaussianBlurConfig[][] = { { 1, 1, 1 }, { 1, 5, 1 }, { 1, 1, 1 } };
+			// double GaussianBlurConfig[][] = { { 0.01, 0.08, 0.01 },
+			// { 0.08, 0.64, 0.08 }, { 0.01, 0.08, 0.01 } };
+			ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
+			convMatrix.applyConfig(GaussianBlurConfig);
+			convMatrix.Factor = red;
+			convMatrix.Offset = green;
+			return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
 		}
 }

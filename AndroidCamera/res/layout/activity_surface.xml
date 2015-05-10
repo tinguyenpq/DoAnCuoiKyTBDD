@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <SurfaceView
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.27" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.59" />
 
 </LinearLayout>

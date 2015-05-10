@@ -24,6 +24,7 @@
         <activity
             android:name=".controllers.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,12 +36,14 @@
         </activity>
         <activity
             android:name=".controllers.OptionAfterShutterActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_option_after_shutter" >
         </activity>
         <activity android:name=".tabactionbar.GalleryActivity" >
         </activity>
         <activity
             android:name="vn.tdt.androidcamera.controllers.PhotoEditorMain"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_photo_editor_main" >
         </activity>
     </application>

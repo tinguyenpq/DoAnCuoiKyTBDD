@@ -16,19 +16,30 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PointF;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
+import android.media.FaceDetector;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -37,11 +48,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
-	
 	private ImageView mImageGallery;
 	private ImageView mImageSetting;
 	private ImageView imgViewCapture;
@@ -66,6 +77,9 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	LayoutInflater controlInflater = null;
 	String lastestPhotoTaken;
 
+	DrawingView drawingView;
+	Face[] detectedFaces;
+
 	// To save or get data from xml file
 	SharedPreferencesModels prm;
 
@@ -79,13 +93,19 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_surface);
 
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
-		// getWindow().setFormat(PixelFormat.UNKNOWN);
+		getWindow().setFormat(PixelFormat.UNKNOWN);
 		surfaceView = (SurfaceView) findViewById(R.id.cameraPreview);
 		surfaceHolder = surfaceView.getHolder();
 		surfaceHolder.addCallback(this);
-		// surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
+		surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+		drawingView = new DrawingView(this);
+		LayoutParams layoutParamsDrawing = new LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		this.addContentView(drawingView, layoutParamsDrawing);
+
 		controlInflater = LayoutInflater.from(getBaseContext());
 		View viewControl = controlInflater
 				.inflate(R.layout.activity_main, null);
@@ -135,6 +155,19 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		imgViewEffect9.setOnClickListener(mGlobal_OnClickListener);
 
 		lastestPhotoTaken = prm.getStringValue(PathConstant.LASTEST_PHOTO);
+
+		// LinearLayout layoutBackground =
+		// (LinearLayout)findViewById(R.id.background);
+		// layoutBackground.setOnClickListener(new
+		// LinearLayout.OnClickListener(){
+		//
+		// @Override
+		// public void onClick(View arg0) {
+		// // TODO Auto-generated method stub
+		//
+		// imgViewCapture.setEnabled(false);
+		// camera.autoFocus(myAutoFocusCallback);
+		// }});
 	}
 
 	@Override
@@ -152,15 +185,21 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 				// Ultilities.toastShow(getApplicationContext(), camera
 				// .getParameters().getMaxNumDetectedFaces() + "",
 				// Gravity.CENTER);
-				// camera.startFaceDetection();
+				camera.startFaceDetection();
 				previewing = true;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
+		// if (this.getResources().getConfiguration().orientation ==
+		// Configuration.) {
+		//
+		// camera.setDisplayOrientation(90);
+		//
+		// }
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
 		try {
@@ -178,6 +217,14 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			// int preW = params.getPreviewSize().width;
 			// float scale = ((float) (picH * preW)) / ((float) (picW * preH));
 			// params.setPictureSize(picW, picH);
+
+			Camera.Parameters p = camera.getParameters();
+			p.set("jpeg-quality", 100);
+			p.setRotation(90);
+			p.setPictureFormat(PixelFormat.JPEG);
+			p.setPreviewSize(p.getPreviewSize().width,
+					p.getPreviewSize().height);
+			camera.setParameters(p);
 		} catch (RuntimeException e) {
 			Ultilities.toastShow(getApplicationContext(), "Camera not open!",
 					Gravity.CENTER);
@@ -194,18 +241,21 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	}
 
 	FaceDetectionListener faceDetectionListener = new FaceDetectionListener() {
+
 		@Override
 		public void onFaceDetection(Face[] faces, Camera camera) {
 
 			if (faces.length == 0) {
-				Ultilities.toastShow(getApplicationContext(),
-						" no faces detected", Gravity.CENTER);
+				// prompt.setText(" No Face Detected! ");
+				drawingView.setHaveFace(false);
 			} else {
-				// prompt.setText(String.valueOf(faces.length) +
-				// " Face Detected :) ");
-				// Ultilities.toastShow(getApplicationContext(), faces.length
-				// + " faces detected", Gravity.CENTER);
+				// prompt.setText(String.valueOf(faces.length)
+				// + " Face Detected :) ");
+				drawingView.setHaveFace(true);
+				detectedFaces = faces;
 			}
+
+			drawingView.invalidate();
 
 		}
 	};
@@ -215,6 +265,16 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		@Override
 		public void onAutoFocus(boolean arg0, Camera arg1) {
 			// TODO Auto-generated method stub
+			imgViewCapture.setEnabled(true);
+		}
+	};
+
+	ShutterCallback myShutterCallback = new ShutterCallback() {
+
+		@Override
+		public void onShutter() {
+			// TODO Auto-generated method stub
+
 		}
 	};
 
@@ -227,11 +287,11 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		}
 	};
 
-	final OnClickListener mGlobal_OnClickListener = new OnClickListener() {
+	OnClickListener mGlobal_OnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == mImageGallery.getId()) {
-				//Intent intent = new Intent(mContext, GalleryActivity.class);
+				// Intent intent = new Intent(mContext, GalleryActivity.class);
 				Intent intent = new Intent(mContext, PhotoEditorMain.class);
 				startActivity(intent);
 
@@ -242,55 +302,61 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			}
 			if (v.getId() == imgViewCapture.getId()) {
 
-				camera.takePicture(null, null, new PictureCallback() {
+				camera.takePicture(myShutterCallback, myPictureCallback_RAW,
+						new PictureCallback() {
 
-					@Override
-					public void onPictureTaken(byte[] data, Camera cam) {
+							@Override
+							public void onPictureTaken(byte[] data, Camera cam) {
 
-						BitmapFactory.Options option = new Options();
-						option.inSampleSize = 0;
-						option.inPreferQualityOverSpeed = true;
-						option.inSampleSize = 0;
-						option.inScaled = true;
+								BitmapFactory.Options option = new Options();
+								option.inPreferredConfig = Bitmap.Config.ARGB_8888;
+								option.inSampleSize = 0;
+								option.inPreferQualityOverSpeed = true;
+								option.inSampleSize = 0;
+								option.inScaled = true;
 
-						Bitmap b = BitmapFactory.decodeByteArray(data, 0,
-								data.length, option);
+								Bitmap b = BitmapFactory.decodeByteArray(data,
+										0, data.length, option);
 
-						// file name to save
-						String fileName = Ultilities.getFileName(1);
+								// file name to save
+								String fileName = Ultilities.getFileName(1);
 
-						// path to store photo taken
-						String path = Ultilities.pathToSave(1);
+								// path to store photo taken
+								String path = Ultilities.pathToSave(1);
 
-						// Ultilities.takePictureHandler(b, fileName, path);
+								// Ultilities.takePictureHandler(b, fileName,
+								// path);
 
-						// save lastest photo to file
-						prm.saveStringValue(PathConstant.LASTEST_PHOTO, fileName);
+								// save lastest photo to file
+								prm.saveStringValue(PathConstant.LASTEST_PHOTO,
+										fileName);
 
-						// Ultilities.toastShow(mContext,
-						// prm.getStringValue(LASTEST_PHOTO)
-						// + " has saved " + path, Gravity.CENTER);
+								// Ultilities.toastShow(mContext,
+								// prm.getStringValue(LASTEST_PHOTO)
+								// + " has saved " + path, Gravity.CENTER);
 
-						// set screenshot photo was taken recently to ImageView
-						mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(
-								b, 64, 64, false));
+								// set screenshot photo was taken recently to
+								// ImageView
+								mImageGallery.setImageBitmap(Bitmap
+										.createScaledBitmap(b, 64, 64, false));
 
-						Intent intentPhotoTaken = new Intent(mContext,
-								OptionAfterShutterActivity.class);
-						Bundle bundle = new Bundle();
-						bundle.putByteArray("image",
-								BitmapHandler.convertBitMapToByteArray(b));
-						bundle.putString("path", path);
-						bundle.putString("fileName", fileName);
+								Intent intentPhotoTaken = new Intent(mContext,
+										OptionAfterShutterActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putByteArray("image", BitmapHandler
+										.convertBitMapToByteArray(b));
+								bundle.putString("path", path);
+								bundle.putString("fileName", fileName);
 
-						// Đưa Bundle vào Intent
-						intentPhotoTaken.putExtra("PhotoTakenPackage", bundle);
-						startActivity(intentPhotoTaken);
-						finish();
+								// Đưa Bundle vào Intent
+								intentPhotoTaken.putExtra("PhotoTakenPackage",
+										bundle);
+								startActivity(intentPhotoTaken);
+								finish();
 
-						// refeshCamera();
-					}
-				});
+								// refeshCamera();
+							}
+						});
 			}
 			if (v.getId() == imgViewEffect.getId()) {
 				Toast.makeText(getApplicationContext(), "Effect",
@@ -337,6 +403,69 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private class DrawingView extends View {
+
+		boolean haveFace;
+		Paint drawingPaint;
+		private int width, height;
+		private int NUMBER_OF_FACES = 6;
+		private FaceDetector faceDetector;
+		private int NUMBER_OF_FACE_DETECTED;
+		private float eyeDistance;
+
+		public DrawingView(Context context) {
+			super(context);
+			width = getWidth();
+			height = getHeight();
+//			width = getHeight();
+//			height = getWidth();
+			haveFace = false;
+			drawingPaint = new Paint();
+			drawingPaint.setColor(Color.GREEN);
+			drawingPaint.setStyle(Paint.Style.STROKE);
+			drawingPaint.setStrokeWidth(2);
+		}
+
+		public void setHaveFace(boolean h) {
+			haveFace = h;
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+//			if (haveFace) {
+//
+//				// Camera driver coordinates range from (-1000, -1000) to (1000,
+//				// 1000).
+//				// UI coordinates range from (0, 0) to (width, height).
+//
+//				 int vWidth =getWidth() ;
+//				 int vHeight = getHeight();
+//
+//				for (int i = 0; i < detectedFaces.length; i++) {
+//
+//					int l = detectedFaces[i].rect.left;
+//					int t = detectedFaces[i].rect.top;
+//					int r = detectedFaces[i].rect.right;
+//					int b = detectedFaces[i].rect.bottom;
+//					
+//					int left = (l + 1000) * vWidth / 2000;
+//					int top = (t + 1000) * vHeight / 2000;
+//					int right = (r + 1000) * vWidth / 2000;
+//					int bottom = (b + 1000) * vHeight / 2000;
+//					
+//					canvas.drawRect(left, top, right, bottom, drawingPaint);
+//				}
+//			} else {
+//				canvas.drawColor(Color.TRANSPARENT);
+//			}
+		}
+
+	}
+
+	public void drawSurfaceView(Canvas canvas) {
+
 	}
 
 }
