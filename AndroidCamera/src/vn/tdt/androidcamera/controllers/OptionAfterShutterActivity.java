@@ -1,19 +1,20 @@
 package vn.tdt.androidcamera.controllers;
 
+import javax.crypto.spec.IvParameterSpec;
+
 import vn.tdt.androidcamera.R;
-import vn.tdt.androidcamera.R.id;
-import vn.tdt.androidcamera.R.layout;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class OptionAfterShutterActivity extends Activity {
 
@@ -25,23 +26,27 @@ public class OptionAfterShutterActivity extends Activity {
 	Bitmap b;
 	String fileName;
 	String path;
-
+	TextView tvNameOfPhoto;
 	Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		//Remove title bar 
-//		 this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		 this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		    //Remove notification bar 
 //		    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_option_after_shutter);
 		 
-	 
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int height = displaymetrics.heightPixels;
+		int width = displaymetrics.widthPixels;
 		imgViewOptionAfterShutter = (ImageView) findViewById(R.id.imgViewOptionAfterShutter);
 		btnSave = (Button) findViewById(R.id.btnSave);
 		btnEdit = (Button) findViewById(R.id.btnEdit);
 		btnCancel = (Button) findViewById(R.id.btnCancel);
+		tvNameOfPhoto = (TextView) findViewById(R.id.tvNameOfPhoto);
 		context = getApplicationContext();
 
 		Intent callerIntent = getIntent();
@@ -52,9 +57,10 @@ public class OptionAfterShutterActivity extends Activity {
 					.getByteArray("image"));
 			fileName = packageFromCaller.getString("fileName");
 			path = packageFromCaller.getString("path");
-
 			imgViewOptionAfterShutter.setImageBitmap(b);
-
+//			imgViewOptionAfterShutter.setImageBitmap(Bitmap
+//					.createScaledBitmap(b, width, height, true));
+			tvNameOfPhoto.setText(fileName+".JPG");
 			btnSave.setOnClickListener(onClickHandler);
 			btnEdit.setOnClickListener(onClickHandler);
 			btnCancel.setOnClickListener(onClickHandler);
@@ -81,6 +87,14 @@ public class OptionAfterShutterActivity extends Activity {
 	};
 
 	public void backMainActivity() {
+		Intent i = new Intent(OptionAfterShutterActivity.this,
+				MainActivity.class);
+		startActivity(i);
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
 		Intent i = new Intent(OptionAfterShutterActivity.this,
 				MainActivity.class);
 		startActivity(i);

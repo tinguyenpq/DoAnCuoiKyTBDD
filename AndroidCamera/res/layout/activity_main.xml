@@ -14,11 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="17dp"
-        android:src="@drawable/setting" />
+        android:src="@drawable/setting69" />
 
     <FrameLayout
+        android:id="@+id/frameLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -36,14 +35,17 @@
                 android:id="@id/image_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="0.5"
+                android:paddingLeft="0dp"
                 android:src="@drawable/image_gallery_normal_64" />
 
             <ImageView
                 android:id="@+id/imgViewCapture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:src="@drawable/shooting_normal" />
 
             <ImageView
@@ -133,5 +135,22 @@
             </LinearLayout>
         </HorizontalScrollView>
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivSwitchCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/image_setting"
+        android:layout_marginRight="76dp"
+        android:layout_toLeftOf="@id/image_setting"
+        android:src="@drawable/switch_camera" />
+
+    <ImageView
+        android:id="@+id/ivFlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/frameLayout1"
+        android:layout_alignTop="@+id/imageView1"
+        android:src="@drawable/flash_off" />
 
 </RelativeLayout>

@@ -8,9 +8,10 @@ import java.util.Date;
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.R.id;
 import vn.tdt.androidcamera.R.layout;
+import vn.tdt.androidcamera.album.GalleryActivity;
+import vn.tdt.androidcamera.album.ViewAlbumBySlide;
 import vn.tdt.androidcamera.constant.PathConstant;
 import vn.tdt.androidcamera.models.SharedPreferencesModels;
-import vn.tdt.androidcamera.tabactionbar.GalleryActivity;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -31,6 +32,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
+import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.media.FaceDetector;
@@ -57,6 +59,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	private ImageView mImageSetting;
 	private ImageView imgViewCapture;
 	private ImageView imgViewEffect;
+	private ImageView ivFlash;
+	private ImageView ivSwitchCamera;
 	private Context mContext;
 	HorizontalScrollView horizontalScrollViewListEffect;
 
@@ -75,6 +79,10 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	SurfaceHolder surfaceHolder;
 	boolean previewing = false;
 	LayoutInflater controlInflater = null;
+	Camera.Parameters params;
+	int currentCameraId = 0;
+	private boolean isLighOn = false;
+
 	String lastestPhotoTaken;
 
 	DrawingView drawingView;
@@ -121,6 +129,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		mImageSetting = (ImageView) findViewById(R.id.image_setting);
 		imgViewCapture = (ImageView) findViewById(R.id.imgViewCapture);
 		imgViewEffect = (ImageView) findViewById(R.id.imgViewEffect);
+		ivFlash = (ImageView) findViewById(R.id.ivFlash);
+		ivSwitchCamera = (ImageView) findViewById(R.id.ivSwitchCamera);
 
 		// preferences for put and get data from xml file
 		prm = new SharedPreferencesModels(mContext);
@@ -136,10 +146,15 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		imgViewEffect8 = (ImageView) findViewById(R.id.ivEff8);
 		imgViewEffect9 = (ImageView) findViewById(R.id.ivEff9);
 
+		toggleFlashIcon();
+
 		mImageGallery.setOnClickListener(mGlobal_OnClickListener);
 		mImageSetting.setOnClickListener(mGlobal_OnClickListener);
 		imgViewCapture.setOnClickListener(mGlobal_OnClickListener);
 		imgViewEffect.setOnClickListener(mGlobal_OnClickListener);
+		ivFlash.setOnClickListener(mGlobal_OnClickListener);
+		ivSwitchCamera.setOnClickListener(mGlobal_OnClickListener);
+
 		horizontalScrollViewListEffect
 				.setOnClickListener(mGlobal_OnClickListener);
 		surfaceView.setOnClickListener(mGlobal_OnClickListener);
@@ -172,6 +187,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
+		Log.d("=======================change------------------", "change");
 		if (previewing) {
 			camera.stopFaceDetection();
 			camera.stopPreview();
@@ -191,12 +207,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 				e.printStackTrace();
 			}
 		}
-		// if (this.getResources().getConfiguration().orientation ==
-		// Configuration.) {
-		//
-		// camera.setDisplayOrientation(90);
-		//
-		// }
 	}
 
 	@SuppressWarnings("deprecation")
@@ -218,17 +228,19 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			// float scale = ((float) (picH * preW)) / ((float) (picW * preH));
 			// params.setPictureSize(picW, picH);
 
-			Camera.Parameters p = camera.getParameters();
-			p.set("jpeg-quality", 100);
-			p.setRotation(90);
-			p.setPictureFormat(PixelFormat.JPEG);
-			p.setPreviewSize(p.getPreviewSize().width,
-					p.getPreviewSize().height);
-			camera.setParameters(p);
+			params = camera.getParameters();
+			params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+			params.set("jpeg-quality", 100);
+			params.setRotation(90);
+			params.setPictureFormat(PixelFormat.JPEG);
+			params.setPreviewSize(params.getPreviewSize().width,
+					params.getPreviewSize().height);
+			camera.setParameters(params);
 		} catch (RuntimeException e) {
 			Ultilities.toastShow(getApplicationContext(), "Camera not open!",
 					Gravity.CENTER);
 		}
+		// camera.release();
 	}
 
 	@Override
@@ -273,7 +285,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 		@Override
 		public void onShutter() {
-			// TODO Auto-generated method stub
 
 		}
 	};
@@ -288,12 +299,14 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 	};
 
 	OnClickListener mGlobal_OnClickListener = new OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == mImageGallery.getId()) {
-				// Intent intent = new Intent(mContext, GalleryActivity.class);
-				Intent intent = new Intent(mContext, PhotoEditorMain.class);
+				Intent intent = new Intent(mContext, GalleryActivity.class);
+				// Intent intent = new Intent(mContext, PhotoEditorMain.class);
 				startActivity(intent);
+				finish();
 
 			}
 			if (v.getId() == mImageSetting.getId()) {
@@ -301,6 +314,19 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 						Toast.LENGTH_SHORT).show();
 			}
 			if (v.getId() == imgViewCapture.getId()) {
+
+				if (isLighOn) {
+					turnOnFlash();
+					// try {
+					// Thread.sleep(1500);
+					// } catch (InterruptedException e) {
+					// e.printStackTrace();
+					// }
+
+					turnOffFlash();
+					// turn on flash
+
+				}
 
 				camera.takePicture(myShutterCallback, myPictureCallback_RAW,
 						new PictureCallback() {
@@ -385,6 +411,50 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 						prm.getIntValue("current_effect") + "", Gravity.CENTER);
 			}
 
+			if (v.getId() == ivFlash.getId()) {
+				if (isLighOn) {
+					// turn off flash
+					turnOffFlash();
+				} else {
+					// turn on flash
+					turnOnFlash();
+				}
+			}
+			if (v.getId() == ivSwitchCamera.getId()) {
+				// scamera.stopPreview();
+				// camera.release();
+				camera.stopFaceDetection();
+				camera.stopPreview();
+				camera.release();
+				camera = null;
+				previewing = false;
+				
+				if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+					currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+				} else {
+					currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+				}
+				try {
+
+					camera = Camera.open(currentCameraId);
+					 camera.setFaceDetectionListener(faceDetectionListener);
+					camera.setDisplayOrientation(90);
+					params = camera.getParameters();
+					// params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+					 params.set("jpeg-quality", 100);
+					 params.setRotation(90);
+					 params.setPictureFormat(PixelFormat.JPEG);
+					 params.setPreviewSize(params.getPreviewSize().width,
+					 params.getPreviewSize().height);
+					camera.setParameters(params);
+				} catch (Exception ex) {
+					Ultilities.toastShow(mContext, "Something error- Camera "
+							+ currentCameraId + " is not working",
+							Gravity.CENTER);
+				}
+				refeshCamera();
+			}
+
 		}
 	};
 
@@ -403,6 +473,53 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 				e.printStackTrace();
 			}
 		}
+
+	}
+
+	// Turning On flash
+	public void turnOnFlash() {
+
+		if (!isLighOn) {
+			if (camera == null || params == null) {
+				return;
+			}
+			params = camera.getParameters();
+			params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+			camera.setParameters(params);
+			camera.startPreview();
+			isLighOn = true;
+
+			// changing button/switch image
+			toggleFlashIcon();
+		}
+
+	}
+
+	// Turning Off flash
+	private void turnOffFlash() {
+
+		if (isLighOn) {
+			if (camera == null || params == null) {
+				return;
+			}
+
+			params = camera.getParameters();
+			params.setFlashMode(Parameters.FLASH_MODE_OFF);
+			camera.setParameters(params);
+			camera.stopPreview();
+			isLighOn = false;
+
+			// changing button/switch image
+			toggleFlashIcon();
+		}
+	}
+
+	private void toggleFlashIcon() {
+		if (isLighOn) {
+			ivFlash.setImageResource(R.drawable.flash_on);
+		} else {
+			ivFlash.setImageResource(R.drawable.flash_off);
+		}
 	}
 
 	private class DrawingView extends View {
@@ -419,8 +536,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			super(context);
 			width = getWidth();
 			height = getHeight();
-//			width = getHeight();
-//			height = getWidth();
+			// width = getHeight();
+			// height = getWidth();
 			haveFace = false;
 			drawingPaint = new Paint();
 			drawingPaint.setColor(Color.GREEN);
@@ -434,32 +551,32 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-//			if (haveFace) {
-//
-//				// Camera driver coordinates range from (-1000, -1000) to (1000,
-//				// 1000).
-//				// UI coordinates range from (0, 0) to (width, height).
-//
-//				 int vWidth =getWidth() ;
-//				 int vHeight = getHeight();
-//
-//				for (int i = 0; i < detectedFaces.length; i++) {
-//
-//					int l = detectedFaces[i].rect.left;
-//					int t = detectedFaces[i].rect.top;
-//					int r = detectedFaces[i].rect.right;
-//					int b = detectedFaces[i].rect.bottom;
-//					
-//					int left = (l + 1000) * vWidth / 2000;
-//					int top = (t + 1000) * vHeight / 2000;
-//					int right = (r + 1000) * vWidth / 2000;
-//					int bottom = (b + 1000) * vHeight / 2000;
-//					
-//					canvas.drawRect(left, top, right, bottom, drawingPaint);
-//				}
-//			} else {
-//				canvas.drawColor(Color.TRANSPARENT);
-//			}
+			// if (haveFace) {
+			//
+			// // Camera driver coordinates range from (-1000, -1000) to (1000,
+			// // 1000).
+			// // UI coordinates range from (0, 0) to (width, height).
+			//
+			// int vWidth =getWidth() ;
+			// int vHeight = getHeight();
+			//
+			// for (int i = 0; i < detectedFaces.length; i++) {
+			//
+			// int l = detectedFaces[i].rect.left;
+			// int t = detectedFaces[i].rect.top;
+			// int r = detectedFaces[i].rect.right;
+			// int b = detectedFaces[i].rect.bottom;
+			//
+			// int left = (l + 1000) * vWidth / 2000;
+			// int top = (t + 1000) * vHeight / 2000;
+			// int right = (r + 1000) * vWidth / 2000;
+			// int bottom = (b + 1000) * vHeight / 2000;
+			//
+			// canvas.drawRect(left, top, right, bottom, drawingPaint);
+			// }
+			// } else {
+			// canvas.drawColor(Color.TRANSPARENT);
+			// }
 		}
 
 	}
@@ -468,4 +585,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 	}
 
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 }
