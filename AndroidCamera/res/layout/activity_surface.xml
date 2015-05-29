@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cameraLayout"
     android:orientation="vertical" >
 
     <SurfaceView
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.59" />
+        android:layout_weight="0.79" />
 
 </LinearLayout>
