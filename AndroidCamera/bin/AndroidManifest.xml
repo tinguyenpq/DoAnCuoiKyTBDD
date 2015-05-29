@@ -3,7 +3,8 @@
     package="vn.tdt.androidcamera"
     android:versionCode="1"
     android:versionName="1.0" >
-    <uses-sdk
+
+    <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
@@ -28,6 +29,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".controllers.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>

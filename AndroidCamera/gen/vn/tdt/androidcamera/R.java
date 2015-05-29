@@ -171,132 +171,122 @@ public final class R {
     }
     public static final class drawable {
         public static final int aodai=0x7f020000;
-        public static final int back=0x7f020001;
-        public static final int camera_icon=0x7f020002;
-        public static final int check=0x7f020003;
-        public static final int control=0x7f020004;
-        public static final int custom_background_zoom=0x7f020005;
-        public static final int custom_onclick_effect=0x7f020006;
-        public static final int custom_seekbar_zoom=0x7f020007;
-        public static final int custom_seekbar_zoom_background=0x7f020008;
-        public static final int custom_shooting=0x7f020009;
-        public static final int custom_switch_button_ios=0x7f02000a;
-        public static final int custom_swith_item=0x7f02000b;
-        public static final int custom_tab_my_album=0x7f02000c;
-        public static final int custom_tab_other_album=0x7f02000d;
-        public static final int eff01=0x7f02000e;
-        public static final int effect_camera=0x7f02000f;
-        public static final int flash_off=0x7f020010;
-        public static final int flash_on=0x7f020011;
-        public static final int girl=0x7f020012;
-        public static final int hdr=0x7f020013;
-        public static final int ic_launcher=0x7f020014;
-        public static final int image_gallery_normal_64=0x7f020015;
-        public static final int image_gallery_selected_64=0x7f020016;
-        public static final int infomation=0x7f020017;
-        public static final int light_color=0x7f020018;
-        public static final int lightning=0x7f020019;
-        public static final int line=0x7f02001a;
-        public static final int magic=0x7f02001b;
-        public static final int magic2=0x7f02001c;
-        public static final int magic_skin=0x7f02001d;
-        public static final int magic_skin_blue=0x7f02001e;
-        public static final int magic_skin_bw=0x7f02001f;
-        public static final int magic_skin_hot=0x7f020020;
-        public static final int magic_skin_natural=0x7f020021;
-        public static final int magic_skin_warm=0x7f020022;
-        public static final int my_album_normal_64=0x7f020023;
-        public static final int my_album_selected_64=0x7f020024;
-        public static final int natural_wall=0x7f020025;
-        public static final int other_album_normal_64=0x7f020026;
-        public static final int other_album_selected_64=0x7f020027;
-        public static final int red_scrubber_track_holo_light=0x7f020028;
-        public static final int setting=0x7f020029;
-        public static final int setting69=0x7f02002a;
-        public static final int shooting_normal=0x7f02002b;
-        public static final int shooting_selected=0x7f02002c;
-        public static final int swipe_left=0x7f02002d;
-        public static final int swipe_right=0x7f02002e;
-        public static final int switch_camera=0x7f02002f;
-        public static final int toggle_off=0x7f020030;
-        public static final int toggle_on=0x7f020031;
-        public static final int uncheck=0x7f020032;
-        public static final int zoom_in=0x7f020033;
+        public static final int camera_icon=0x7f020001;
+        public static final int check=0x7f020002;
+        public static final int color_baloons=0x7f020003;
+        public static final int custom_shooting=0x7f020004;
+        public static final int custom_tab_my_album=0x7f020005;
+        public static final int custom_tab_other_album=0x7f020006;
+        public static final int eff01=0x7f020007;
+        public static final int effect_camera=0x7f020008;
+        public static final int flash_off=0x7f020009;
+        public static final int flash_on=0x7f02000a;
+        public static final int girl=0x7f02000b;
+        public static final int hdr=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int image_gallery_normal_64=0x7f02000e;
+        public static final int image_gallery_selected_64=0x7f02000f;
+        public static final int infomation=0x7f020010;
+        public static final int light_color=0x7f020011;
+        public static final int lightning=0x7f020012;
+        public static final int magic=0x7f020013;
+        public static final int magic2=0x7f020014;
+        public static final int magic_skin=0x7f020015;
+        public static final int magic_skin_blue=0x7f020016;
+        public static final int magic_skin_bw=0x7f020017;
+        public static final int magic_skin_hot=0x7f020018;
+        public static final int magic_skin_natural=0x7f020019;
+        public static final int magic_skin_warm=0x7f02001a;
+        public static final int my_album_normal_64=0x7f02001b;
+        public static final int my_album_selected_64=0x7f02001c;
+        public static final int natural_wall=0x7f02001d;
+        public static final int other_album_normal_64=0x7f02001e;
+        public static final int other_album_selected_64=0x7f02001f;
+        public static final int setting=0x7f020020;
+        public static final int setting69=0x7f020021;
+        public static final int shooting_normal=0x7f020022;
+        public static final int shooting_selected=0x7f020023;
+        public static final int swipe_left=0x7f020024;
+        public static final int swipe_right=0x7f020025;
+        public static final int switch_camera=0x7f020026;
+        public static final int uncheck=0x7f020027;
     }
     public static final class id {
-        public static final int Delete=0x7f070046;
-        public static final int LinearLayout1=0x7f070009;
-        public static final int LinearLayout2=0x7f07000c;
-        public static final int Open=0x7f070045;
-        public static final int PhoneImageGrid=0x7f070022;
-        public static final int Properties=0x7f070047;
-        public static final int action_settings=0x7f070048;
-        public static final int btnCancel=0x7f070012;
-        public static final int btnCancelEditor=0x7f070039;
-        public static final int btnEdit=0x7f070013;
-        public static final int btnSave=0x7f070014;
-        public static final int btnSaveEditor=0x7f07003a;
-        public static final int button1=0x7f07001f;
-        public static final int button2=0x7f070020;
-        public static final int button3=0x7f070021;
-        public static final int cameraLayout=0x7f07001c;
-        public static final int cameraPreview=0x7f07001d;
+        public static final int LinearLayout1=0x7f070019;
+        public static final int LinearLayout2=0x7f07001c;
+        public static final int PhoneImageGrid=0x7f07002c;
+        public static final int action_settings=0x7f07004a;
+        public static final int btnCancel=0x7f07001d;
+        public static final int btnCancelEditor=0x7f070043;
+        public static final int btnEdit=0x7f07001e;
+        public static final int btnSave=0x7f07001f;
+        public static final int btnSaveEditor=0x7f070044;
+        public static final int button1=0x7f070029;
+        public static final int button2=0x7f07002a;
+        public static final int button3=0x7f07002b;
+        public static final int cameraPreview=0x7f070027;
         public static final int camera_preview=0x7f070004;
-        public static final int flipper=0x7f070042;
-        public static final int fragment_effect_list=0x7f070017;
-        public static final int fragment_filter_effect=0x7f070018;
-        public static final int fragment_option_title=0x7f070015;
-        public static final int fragment_other_feature=0x7f070019;
-        public static final int fragment_save_or_discard_effect=0x7f07001b;
-        public static final int fragment_seekbar_option=0x7f07001a;
-        public static final int horizontalScrollView1=0x7f070024;
-        public static final int imageView1=0x7f07000e;
+        public static final int flipper=0x7f070047;
+        public static final int fragment_effect_list=0x7f070022;
+        public static final int fragment_filter_effect=0x7f070023;
+        public static final int fragment_option_title=0x7f070020;
+        public static final int fragment_other_feature=0x7f070024;
+        public static final int fragment_save_or_discard_effect=0x7f070026;
+        public static final int fragment_seekbar_option=0x7f070025;
+        public static final int frameLayout1=0x7f070009;
+        public static final int horizontalScrollView1=0x7f07002e;
+        public static final int horizontalScrollViewListEffect=0x7f07000c;
+        public static final int imageView1=0x7f070018;
         public static final int image_effect=0x7f070003;
         public static final int image_gallery=0x7f070001;
         public static final int image_setting=0x7f070000;
         public static final int image_shooting=0x7f070002;
-        public static final int imgView5=0x7f070029;
-        public static final int imgView6=0x7f07002a;
-        public static final int imgViewCapture=0x7f07000f;
-        public static final int imgViewOptionAfterShutter=0x7f070011;
-        public static final int ivBackMyPhoto=0x7f07003f;
-        public static final int ivCameraMain=0x7f070041;
-        public static final int ivCheckEffect=0x7f070037;
-        public static final int ivFlash=0x7f07000a;
-        public static final int ivHDR=0x7f070028;
-        public static final int ivLightColor=0x7f070027;
-        public static final int ivMagicSkin=0x7f070026;
-        public static final int ivMagicSkinBW=0x7f07002e;
-        public static final int ivMagicSkinBlue=0x7f07002c;
-        public static final int ivMagicSkinHot=0x7f07002f;
-        public static final int ivMagicSkinNatural=0x7f07002b;
-        public static final int ivMagicSkinWarm=0x7f07002d;
-        public static final int ivOtherFeatured=0x7f070025;
-        public static final int ivPhotoViewer=0x7f070016;
-        public static final int ivRedEffect=0x7f070030;
-        public static final int ivSwitchCamera=0x7f07000b;
-        public static final int ivUnCheckEffect=0x7f070035;
-        public static final int mg2=0x7f070031;
-        public static final int mg3=0x7f070032;
-        public static final int mg4=0x7f070033;
-        public static final int mg5=0x7f070034;
+        public static final int imgView5=0x7f070033;
+        public static final int imgView6=0x7f070034;
+        public static final int imgViewCapture=0x7f07000a;
+        public static final int imgViewEffect=0x7f07000b;
+        public static final int imgViewOptionAfterShutter=0x7f07001b;
+        public static final int ivCameraMain=0x7f070046;
+        public static final int ivCheckEffect=0x7f070041;
+        public static final int ivEff1=0x7f07000d;
+        public static final int ivEff2=0x7f07000e;
+        public static final int ivEff3=0x7f07000f;
+        public static final int ivEff4=0x7f070010;
+        public static final int ivEff5=0x7f070011;
+        public static final int ivEff6=0x7f070012;
+        public static final int ivEff7=0x7f070013;
+        public static final int ivEff8=0x7f070014;
+        public static final int ivEff9=0x7f070015;
+        public static final int ivFlash=0x7f070017;
+        public static final int ivHDR=0x7f070032;
+        public static final int ivLightColor=0x7f070031;
+        public static final int ivMagicSkin=0x7f070030;
+        public static final int ivMagicSkinBW=0x7f070038;
+        public static final int ivMagicSkinBlue=0x7f070036;
+        public static final int ivMagicSkinHot=0x7f070039;
+        public static final int ivMagicSkinNatural=0x7f070035;
+        public static final int ivMagicSkinWarm=0x7f070037;
+        public static final int ivOtherFeatured=0x7f07002f;
+        public static final int ivPhotoViewer=0x7f070021;
+        public static final int ivRedEffect=0x7f07003a;
+        public static final int ivSwitchCamera=0x7f070016;
+        public static final int ivUnCheckEffect=0x7f07003f;
+        public static final int mg2=0x7f07003b;
+        public static final int mg3=0x7f07003c;
+        public static final int mg4=0x7f07003d;
+        public static final int mg5=0x7f07003e;
         public static final int pager=0x7f070008;
-        public static final int sbZoom=0x7f07000d;
-        public static final int seekbarOption=0x7f070038;
-        public static final int swAskSave=0x7f07003d;
-        public static final int swSaveLocation=0x7f07003e;
-        public static final int swShutterSound=0x7f07003c;
-        public static final int swTapCapture=0x7f07003b;
+        public static final int seekbarOption=0x7f070042;
         public static final int tab_content_gallery=0x7f070006;
         public static final int tab_host_gallery=0x7f070007;
         public static final int tab_widget_gallery=0x7f070005;
-        public static final int textView1=0x7f070023;
-        public static final int thumbImage=0x7f07001e;
-        public static final int tvDeletePhoto=0x7f070044;
-        public static final int tvEditPhoto=0x7f070043;
-        public static final int tvNameOfFeature=0x7f070036;
-        public static final int tvNameOfPhoto=0x7f070010;
-        public static final int tvPhotoPosition=0x7f070040;
+        public static final int textView1=0x7f07002d;
+        public static final int thumbImage=0x7f070028;
+        public static final int tvDeletePhoto=0x7f070049;
+        public static final int tvEditPhoto=0x7f070048;
+        public static final int tvNameOfFeature=0x7f070040;
+        public static final int tvNameOfPhoto=0x7f07001a;
+        public static final int tvPhotoPosition=0x7f070045;
     }
     public static final class layout {
         public static final int activity_gallery=0x7f030000;
@@ -314,12 +304,10 @@ public final class R {
         public static final int fragment_save_or_discard_effect=0x7f03000c;
         public static final int fragment_seekbar_option=0x7f03000d;
         public static final int fragment_title_option=0x7f03000e;
-        public static final int setting_dialog=0x7f03000f;
-        public static final int view_my_album=0x7f030010;
+        public static final int view_my_album=0x7f03000f;
     }
     public static final class menu {
-        public static final int file_option=0x7f0a0000;
-        public static final int main=0x7f0a0001;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
         public static final int action_help=0x7f080002;
@@ -345,26 +333,11 @@ public final class R {
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
-
-
-
-
-
-
-
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
-
-
-
-
-
-
-
-
 
         
 
@@ -387,13 +360,10 @@ public final class R {
         public static final int BackGroundView=0x7f090007;
         public static final int ButtonContainer=0x7f090006;
         public static final int ButtonNoColor=0x7f090008;
-        public static final int Container=0x7f09000a;
-        public static final int CustomActionBar=0x7f09000c;
+        public static final int CustomActionBar=0x7f090009;
         public static final int CustomActionBarStyle=0x7f090003;
         public static final int ImageTitle=0x7f090005;
-        public static final int ItemStyle=0x7f090009;
         public static final int NoTitleText=0x7f090004;
-        public static final int SwitchItem=0x7f09000b;
         public static final int ThemeNotitle=0x7f090001;
     }
 }
