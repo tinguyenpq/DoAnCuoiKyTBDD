@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/ivRedEffect"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/magic_skin_natural" />
+
+            <ImageView
+                android:id="@+id/mg2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/magic_skin_blue" />
+
+            <ImageView
+                android:id="@+id/mg3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/magic_skin_warm" />
+
+            <ImageView
+                android:id="@+id/mg4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/magic_skin_bw" />
+
+            <ImageView
+                android:id="@+id/mg5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/magic_skin_hot" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

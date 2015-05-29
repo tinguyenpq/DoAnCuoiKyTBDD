@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/ButtonContainer"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+        <ImageView
+            android:id="@+id/ivBackMyPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="left"
+             android:paddingLeft="0dp"
+            android:layout_gravity="left"
+            android:src="@drawable/back"
+            android:text="Button" />
+
+        <TextView
+            android:id="@+id/tvPhotoPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="1/14"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF" />
+
+        <ImageView
+            android:id="@+id/ivCameraMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="0dp"
+            android:gravity="right"
+            android:paddingRight="0dp"
+            android:layout_weight="0.5" 
+            android:src="@drawable/camera_icon" />
+    </LinearLayout>
+
+    <ViewFlipper
+        android:id="@+id/flipper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.90" >
+    </ViewFlipper>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
+        style="@style/ButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.00"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <TextView
+            android:id="@+id/tvEditPhoto"
+            style="@style/ImageTitle"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit" />
+
+        <TextView
+            android:id="@+id/tvDeletePhoto"
+            style="@style/ImageTitle"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="Delete" />
+    </LinearLayout>
+
+</LinearLayout>
