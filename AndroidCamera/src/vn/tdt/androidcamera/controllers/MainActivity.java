@@ -366,10 +366,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 								String fullPath = path + "/" + fileName
 										+ ".JPG";
-								// save lastest photo to file
-								prm.saveStringValue(PathConstant.LASTEST_PHOTO,
-										fullPath);
-
 								// Ultilities.toastShow(mContext, fullPath,
 								// Gravity.CENTER);
 
@@ -394,6 +390,9 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 									startActivity(intentPhotoTaken);
 									finish();
 								} else {
+									// save lastest photo to file
+									prm.saveStringValue(PathConstant.LASTEST_PHOTO,
+											fullPath);
 									Ultilities.takePictureHandler(b, fileName,
 											path);
 									refeshCamera();

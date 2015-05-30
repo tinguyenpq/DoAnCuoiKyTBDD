@@ -26,7 +26,7 @@ public class GalleryActivity extends FragmentActivity implements TabListener {
 	ViewPager pager;
 
 	private final String tab1Lable = "My Album";
-	private final String tab2Lable = "All Photo";
+	private final String tab2Lable = "Other Photo";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

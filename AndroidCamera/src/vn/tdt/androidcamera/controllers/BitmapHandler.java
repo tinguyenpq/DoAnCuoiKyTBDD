@@ -23,7 +23,7 @@ public class BitmapHandler {
 	public static void saveBitmapToJpg(String fileName, String path,
 			Bitmap bitmap) {
 		OutputStream outStream = null;
-		File file = new File(path, fileName + ".JPG");
+		File file = new File(path, fileName + ".jpg");
 		try {
 			outStream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);

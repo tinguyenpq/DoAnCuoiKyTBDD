@@ -1,12 +1,16 @@
 package vn.tdt.androidcamera.controllers;
 
 import vn.tdt.androidcamera.R;
+import vn.tdt.androidcamera.album.GalleryActivity;
+import vn.tdt.androidcamera.constant.PathConstant;
 import vn.tdt.androidcamera.fragment.ListEffectOptionMain;
 import vn.tdt.androidcamera.fragment.MagicSkinFragment;
 import vn.tdt.androidcamera.fragment.OptionsTitleFragment;
 import vn.tdt.androidcamera.fragment.OtherFeatureFragment;
+import vn.tdt.androidcamera.fragment.RotateFragment;
 import vn.tdt.androidcamera.fragment.SaveOrDiscardEffectFragment;
 import vn.tdt.androidcamera.fragment.SeekBarOptionFragment;
+import vn.tdt.androidcamera.models.SharedPreferencesModels;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -37,6 +41,7 @@ public class PhotoEditorMain extends Activity {
 
 	// boolean customTitleSupported;
 	Context context;
+	SharedPreferencesModels prm;
 	Button btnCancelEditor;
 	Button btnEditEditor;
 	Button btnSaveEditor;
@@ -45,6 +50,7 @@ public class PhotoEditorMain extends Activity {
 
 	ImageView ivOtherFeatured;
 
+	ImageView ivNone;
 	ImageView ivMagicSkin;
 	ImageView ivMagicSkinNatural;
 	ImageView ivMagicSkinBlue;
@@ -52,7 +58,11 @@ public class PhotoEditorMain extends Activity {
 	ImageView ivMagicSkinBW;
 	ImageView ivMagicSkinHot;
 	ImageView ivRedEffect;
-
+	ImageView ivRotate;
+	ImageView ivRotateLeft;
+	ImageView ivRotateRight;
+	ImageView ivRotateWidth;
+	ImageView ivRotateHeight;
 	ImageView ivCheckEffect;
 	ImageView ivUnCheckEffect;
 	TextView tvNameOfFeature;
@@ -60,6 +70,7 @@ public class PhotoEditorMain extends Activity {
 
 	Bitmap bmOriginPhoto; // origin photo
 	Bitmap bmCurrentPhoto; // bitmap to save photo when it edited
+	Bitmap bmNone;
 	String filePathReceiver = "";
 	Bitmap bitmapReceiver = null;
 	int ref = 0;
@@ -76,6 +87,7 @@ public class PhotoEditorMain extends Activity {
 		setContentView(R.layout.activity_photo_editor_main);
 
 		context = getApplicationContext();
+		prm = new SharedPreferencesModels(context);
 		btnCancelEditor = (Button) findViewById(R.id.btnCancelEditor);
 		btnSaveEditor = (Button) findViewById(R.id.btnSaveEditor);
 		ivPhotoViewer = (ImageView) findViewById(R.id.ivPhotoViewer);
@@ -86,6 +98,7 @@ public class PhotoEditorMain extends Activity {
 		tvNameOfFeature = (TextView) findViewById(R.id.tvNameOfFeature);
 		seekbarOption = (SeekBar) findViewById(R.id.seekbarOption);
 
+		ivNone = (ImageView) findViewById(R.id.ivNone);
 		ivMagicSkin = (ImageView) findViewById(R.id.ivMagicSkin);
 		ivMagicSkinNatural = (ImageView) findViewById(R.id.ivMagicSkinNatural);
 		ivMagicSkinBlue = (ImageView) findViewById(R.id.ivMagicSkinBlue);
@@ -93,6 +106,11 @@ public class PhotoEditorMain extends Activity {
 		ivMagicSkinBW = (ImageView) findViewById(R.id.ivMagicSkinBW);
 		ivMagicSkinHot = (ImageView) findViewById(R.id.ivMagicSkinHot);
 		ivRedEffect = (ImageView) findViewById(R.id.ivRedEffect);
+		ivRotate = (ImageView) findViewById(R.id.ivRotate);
+		ivRotateLeft = (ImageView) findViewById(R.id.ivRotateLeft);
+		ivRotateRight = (ImageView) findViewById(R.id.ivRotateRight);
+		ivRotateWidth = (ImageView) findViewById(R.id.ivRotateWidth);
+		ivRotateHeight = (ImageView) findViewById(R.id.ivRotateHeight);
 		// Onclick Handler
 		// onClickHandlers();
 		btnCancelEditor.setOnClickListener(onClickEditorHandler);
@@ -103,6 +121,7 @@ public class PhotoEditorMain extends Activity {
 		ivCheckEffect.setOnClickListener(onClickEditorHandler);
 		ivUnCheckEffect.setOnClickListener(onClickEditorHandler);
 
+		ivNone.setOnClickListener(onClickEditorHandler);
 		ivMagicSkin.setOnClickListener(onClickEditorHandler);
 		ivMagicSkinNatural.setOnClickListener(onClickEditorHandler);
 		ivMagicSkinBlue.setOnClickListener(onClickEditorHandler);
@@ -110,6 +129,11 @@ public class PhotoEditorMain extends Activity {
 		ivMagicSkinBW.setOnClickListener(onClickEditorHandler);
 		ivMagicSkinHot.setOnClickListener(onClickEditorHandler);
 		ivRedEffect.setOnClickListener(onClickEditorHandler);
+		ivRotate.setOnClickListener(onClickEditorHandler);
+		ivRotateLeft.setOnClickListener(onClickEditorHandler);
+		ivRotateRight.setOnClickListener(onClickEditorHandler);
+		ivRotateWidth.setOnClickListener(onClickEditorHandler);
+		ivRotateHeight.setOnClickListener(onClickEditorHandler);
 
 		seekbarOption.setMax(510);
 		seekbarOption.setProgress(255);
@@ -142,6 +166,7 @@ public class PhotoEditorMain extends Activity {
 
 		bmOriginPhoto = bitmapReceiver;
 		bmCurrentPhoto = bmOriginPhoto;
+		bmNone = bmOriginPhoto;
 		ivPhotoViewer.setImageBitmap(bmOriginPhoto);
 
 		// hide fragments when not use
@@ -149,8 +174,13 @@ public class PhotoEditorMain extends Activity {
 		showHideSaveOrDiscardEffect(false);
 		showHideOtherFeature(false);
 		showHideSeekBarOption(false);
+		showHideRotate(false);
 
 		// draw text on imageviews
+		drawTextOnImageViews2(ivNone, R.drawable.eft_none, "None", 50);
+		drawTextOnImageViews2(ivMagicSkin, R.drawable.magic_skin2, "Skin", 50);
+		drawTextOnImageViews2(ivOtherFeatured, R.drawable.light_color, "Light",
+				50);
 		drawTextOnImageViews(ivMagicSkinNatural, R.drawable.magic_skin_natural,
 				"Natural", 60);
 		drawTextOnImageViews(ivMagicSkinBlue, R.drawable.magic_skin_blue,
@@ -190,19 +220,34 @@ public class PhotoEditorMain extends Activity {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == btnCancelEditor.getId()) {
-				Ultilities.toastShow(getApplicationContext(),
-						"Back to photo viewer and do nothing", Gravity.CENTER);
+				// Ultilities.toastShow(getApplicationContext(),
+				// "Back to photo viewer and do nothing", Gravity.CENTER);
+				finish();
 			}
 
 			if (v.getId() == btnSaveEditor.getId()) {
 				String fileName = Ultilities.getFileName(1);
 				String path = Ultilities.pathToSave(1);
 				BitmapHandler.saveBitmapToJpg(fileName, path, bmCurrentPhoto);
-				Ultilities
-						.toastShow(
-								getApplicationContext(),
-								"save file to default path with current effect and back to photo viewer",
-								Gravity.CENTER);
+				// Ultilities
+				// .toastShow(
+				// getApplicationContext(),
+				// "save file to default path with current effect and back to photo viewer",
+				// Gravity.CENTER);
+				if (ref == 1) {
+					prm.saveStringValue(PathConstant.LASTEST_PHOTO, path + "/"
+							+ fileName + ".jpg");
+					Intent i = new Intent(PhotoEditorMain.this,
+							MainActivity.class);
+					startActivity(i);
+					finish();
+				}
+				if (ref == 2) {
+					Intent i = new Intent(PhotoEditorMain.this,
+							GalleryActivity.class);
+					startActivity(i);
+					finish();
+				}
 			}
 
 			if (v.getId() == ivCheckEffect.getId()) {
@@ -213,6 +258,11 @@ public class PhotoEditorMain extends Activity {
 			if (v.getId() == ivUnCheckEffect.getId()) {
 				ivPhotoViewer.setImageBitmap(bmOriginPhoto);
 				setBackToEditorMain();
+			}
+
+			if (v.getId() == ivNone.getId()) {
+				bmOriginPhoto = bmNone;
+				ivPhotoViewer.setImageBitmap(bmOriginPhoto);
 			}
 			if (v.getId() == ivMagicSkin.getId()) {
 				setNameOfFeature("Magic Skin");
@@ -267,6 +317,30 @@ public class PhotoEditorMain extends Activity {
 				showHideEffectListFragment(false);
 				showHideOtherFeature(false);
 				showHideSaveOrDiscardEffect(true);
+			}
+			if (v.getId() == ivRotate.getId()) {
+				showHideRotate(true);
+				showHideSeekBarOption(false);
+				showHideOptionTitleFrgament(false);
+				showHideEffectListFragment(false);
+				showHideOtherFeature(false);
+				showHideSaveOrDiscardEffect(true);
+			}
+			if (v.getId() == ivRotateLeft.getId()) {
+				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto,270);
+				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
+			}
+			if (v.getId() == ivRotateRight.getId()) {
+				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto,90);
+				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
+			}
+			if (v.getId() == ivRotateWidth.getId()) {
+				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto,2);
+				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
+			}
+			if (v.getId() == ivRotateHeight.getId()) {
+				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto,1);
+				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 			}
 		}
 	};
@@ -350,6 +424,19 @@ public class PhotoEditorMain extends Activity {
 		}
 	}
 
+	public void showHideRotate(boolean isShow) {
+		FragmentManager fm = getFragmentManager();
+		RotateFragment fr = (RotateFragment) fm
+				.findFragmentById(R.id.fragment_rotate_effect);
+
+		FragmentTransaction ft = fm.beginTransaction();
+		if (!isShow) {
+			ft.hide(fr).commit();
+		} else {
+			ft.show(fr).commit();
+		}
+	}
+
 	public void setNameOfFeature(String name) {
 		tvNameOfFeature.setText(name);
 	}
@@ -374,10 +461,31 @@ public class PhotoEditorMain extends Activity {
 		imgView.setImageBitmap(newImage);
 	}
 
+	public void drawTextOnImageViews2(ImageView imgView, int src, String text,
+			int textSize) {
+		Bitmap bm = BitmapFactory.decodeResource(getResources(), src);
+		Config config = bm.getConfig();
+		int width = bm.getWidth();
+		int height = bm.getHeight();
+
+		Bitmap newImage = Bitmap.createBitmap(width, height, config);
+
+		Canvas c = new Canvas(newImage);
+		c.drawBitmap(bm, 0, 0, null);
+
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setStyle(Style.FILL);
+		paint.setTextSize(textSize);
+		c.drawText(text, width / 10, 3 * height / 5, paint);
+		imgView.setImageBitmap(newImage);
+	}
+
 	public void setBackToEditorMain() {
 		showHideOptionTitleFrgament(true);
 		showHideEffectListFragment(true);
 		showHideMagicSkinOption(false);
+		showHideRotate(false);
 		showHideOtherFeature(false);
 		showHideSaveOrDiscardEffect(false);
 	}

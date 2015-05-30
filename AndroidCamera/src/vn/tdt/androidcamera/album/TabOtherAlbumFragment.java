@@ -1,9 +1,6 @@
 package vn.tdt.androidcamera.album;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.controllers.BitmapHandler;
@@ -24,31 +21,24 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
 
 public class TabOtherAlbumFragment extends Fragment {
-
-	private int count;
-	private Bitmap[] thumbnails;
-	private boolean[] thumbnailsselection;
-	private String[] arrPath;
-	private ImageAdapter imageAdapter;
+	private ImageAdapter imageAdapter2;
 	private Context context;
-	GridView imagegrid;
-	ArrayList<String> f = new ArrayList<String>();// list of file paths
+	GridView gridView;
+	ArrayList<String> files;// list of file paths
 	ArrayList<BitmapDrawable> fileToDrawable = new ArrayList<BitmapDrawable>();
-	File[] listFile;
+	// File[] listFile;
 	String filePath = "";
 
 	SharedPreferencesModels spm;
@@ -58,31 +48,33 @@ public class TabOtherAlbumFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.fragment_gallery_my_album,
+		View view = inflater.inflate(R.layout.fragment_gallery_other_album,
 				container, false);
-
-		this.context = getActivity();
+		files = new ArrayList<String>();
+		this.context = container.getContext();
 		spm = new SharedPreferencesModels(context);
-		// getActivity().getActionBar().hide();
-		// getActivity().
-		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		// getFromSdcard();
-		f = getAllShownImagesPath(getActivity());
-		imagegrid = (GridView) view.findViewById(R.id.PhoneImageGrid);
-		imageAdapter = new ImageAdapter(getActivity(),
-				R.layout.custom_gridview_myalbum, f);
-		imagegrid.setAdapter(imageAdapter);
+	
+		files = getAllShownImagesPath(getActivity());
+//		Ultilities.toastShow(context, "size: "+files.size(), Gravity.CENTER);
+//		for(int i=0;i<files.size();i++){
+//			Log.d("sssssssssssss"+i,files.get(i));
+//		}
+		gridView = (GridView) view.findViewById(R.id.gridViewAllPhoto);
+		imageAdapter2 = new ImageAdapter(getActivity(),
+				R.layout.custom_gridview_myalbum, files);
+		gridView.setAdapter(imageAdapter2);
 
-		for (int i = 0; i < f.size(); i++) {
-			Bitmap bm = BitmapHandler.convertImageToBitmap2(f.get(i));
-			fileToDrawable.add(new BitmapDrawable(getResources(), bm));
-		}
-		imagegrid.setOnItemClickListener(new OnItemClickListener() {
+		// for (int i = 0; i < files.size(); i++) {
+		// Bitmap bm = BitmapHandler.convertImageToBitmap2(files.get(i));
+		// fileToDrawable.add(new BitmapDrawable(getResources(), bm));
+		// }
+		
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
+				// Ultilities.toastShow(context, pos + "", Gravity.CENTER);
 				Intent intentViewAlbum = new Intent(context,
 						ViewAlbumBySlide.class);
 				context.startActivity(intentViewAlbum);
@@ -91,42 +83,26 @@ public class TabOtherAlbumFragment extends Fragment {
 
 				bundle.putInt("position", pos);
 				bundle.putString("filePath", filePath);
-				bundle.putInt("ref",2);
+				bundle.putInt("ref", 2);
 
 				intentViewAlbum.putExtra("viewAlbum", bundle);
 				startActivity(intentViewAlbum);
 				getActivity().finish();
 			}
 		});
-		registerForContextMenu(imagegrid);
-		return view;
-	}
 
-	public void getFromSdcard() {
-		filePath = android.os.Environment.getExternalStorageDirectory() + "";
-		File file = new File(filePath, "TdtCamera");
-		if (file.isDirectory()) {
-			listFile = file.listFiles();
-			Arrays.sort(listFile, new Comparator<Object>() {
-				public int compare(Object o1, Object o2) {
+		gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-					if (((File) o1).lastModified() > ((File) o2).lastModified()) {
-						return -1;
-					} else if (((File) o1).lastModified() < ((File) o2)
-							.lastModified()) {
-						return +1;
-					} else {
-						return 0;
-					}
-				}
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int pos, long arg3) {
 
-			});
-			for (int i = 0; i < listFile.length; i++) {
-				// long lastModified = listFile[i].lastModified();
-				f.add(listFile[i].getAbsolutePath());
-
+				optionLongClick(pos);
+				return false;
 			}
-		}
+		});
+		// registerForContextMenu(gridView);
+		return view;
 	}
 
 	public ArrayList<String> getAllShownImagesPath(Activity activity) {
@@ -136,11 +112,11 @@ public class TabOtherAlbumFragment extends Fragment {
 		ArrayList<String> listOfAllImages = new ArrayList<String>();
 		String absolutePathOfImage = null;
 		uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-		filePath=uri.toString();
+		filePath = uri.toString();
 		Log.d("=================filePAth222", filePath);
-		
+
 		String[] projection = { MediaColumns.DATA,
-				MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+				MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
 
 		cursor = activity.getContentResolver().query(uri, projection, null,
 				null, null);
@@ -156,65 +132,70 @@ public class TabOtherAlbumFragment extends Fragment {
 		return listOfAllImages;
 	}
 
-	AdapterView.AdapterContextMenuInfo info;
+	
+	public void optionLongClick(final int pos) {
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		switch (item.getItemId()) {
+		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+				getActivity());
+		// builderSingle.setIcon(R.drawable.ic_launcher);
+		builderSingle.setTitle("Select One Name:-");
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+				getActivity(), android.R.layout.select_dialog_item);
+		arrayAdapter.add("Open");
+		arrayAdapter.add("Delete");
+		arrayAdapter.add("Properties");
+		builderSingle.setAdapter(arrayAdapter,
+				new DialogInterface.OnClickListener() {
 
-		case R.id.Delete:
-			// Ultilities.toastShow(context, "Delete " + info.position,
-			// Gravity.CENTER);
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-			builder1.setMessage("Delete?");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("Yes",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							boolean deleted = FileUltil.deleteFile(f
-									.get(info.position));
-							f.remove(info.position);
-							imageAdapter.notifyDataSetChanged();
-							// imagegrid.invalidateViews();
-							imagegrid.setAdapter(imageAdapter);
-							// imagegrid.refreshDrawableState();
-							dialog.cancel();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String strName = arrayAdapter.getItem(which);
+						
+						if (strName.equals("Delete")) {
+							Ultilities.toastShow(context, files.get(pos),
+									Gravity.CENTER);
+							AlertDialog.Builder builder1 = new AlertDialog.Builder(
+									context);
+							builder1.setMessage("Delete?");
+							builder1.setCancelable(true);
+							builder1.setPositiveButton("Yes",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											boolean deleted = FileUltil
+													.deleteFile(files.get(pos));
+//											Ultilities.toastShow(context,
+//													files.get(pos) + deleted,
+//													Gravity.CENTER);
+
+											files.remove(pos);
+//											Ultilities.toastShow(context,
+//													files.size() + "size",
+//													Gravity.CENTER);
+											imageAdapter2
+													.notifyDataSetChanged();
+											gridView.invalidateViews();
+											gridView.setAdapter(imageAdapter2);
+
+											dialog.cancel();
+
+										}
+									});
+							builder1.setNegativeButton("No",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											dialog.cancel();
+										}
+									});
+
+							AlertDialog alert11 = builder1.create();
+							alert11.show();
 
 						}
-					});
-			builder1.setNegativeButton("No",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-			return true;
-		case R.id.Open:
-			return true;
-		case R.id.Properties:
-			return true;
-
-		default:
-			return super.onContextItemSelected(item);
-		}
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Select The Action");
-		// menu.add(0, v.getId(), 0, "Call");// groupId, itemId, order, title
-		// menu.add(0, v.getId(), 0, "SMS");
-		// getActivity().getMenuInflater().inflate(R.menu.file_option, menu);
-		menu.add(menu.NONE, R.id.Open, Menu.NONE, "Open");
-		menu.add(menu.NONE, R.id.Delete, Menu.NONE, "Delete");
-		menu.add(menu.NONE, R.id.Properties, Menu.NONE, "Properties");
-
+					}
+				});
+		builderSingle.show();
 	}
 
 	@Override

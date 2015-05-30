@@ -59,7 +59,7 @@ public class TabMyAlbumFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_gallery_my_album,
 				container, false);
 
-		this.context = getActivity();
+		this.context = container.getContext();
 		spm = new SharedPreferencesModels(context);
 		// getActivity().getActionBar().hide();
 		// getActivity().
@@ -81,10 +81,11 @@ public class TabMyAlbumFragment extends Fragment {
 				R.layout.custom_gridview_myalbum, f);
 		imagegrid.setAdapter(imageAdapter);
 		
-		for (int i = 0; i < f.size(); i++) {
-			Bitmap bm = BitmapHandler.convertImageToBitmap(f.get(i));
-			fileToDrawable.add(new BitmapDrawable(getResources(), bm));
-		}
+//		for (int i = 0; i < f.size(); i++) {
+//			Bitmap bm = BitmapHandler.convertImageToBitmap(f.get(i));
+//			fileToDrawable.add(new BitmapDrawable(getResources(), bm));
+//		}
+		
 		imagegrid.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

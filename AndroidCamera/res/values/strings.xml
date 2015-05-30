@@ -19,4 +19,10 @@
     <string name="color_baloons">Color Baloons</string>
     <string name="natural_wall">Natural Wall</string>
 
+    <string-array name="option_files">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
 </resources>

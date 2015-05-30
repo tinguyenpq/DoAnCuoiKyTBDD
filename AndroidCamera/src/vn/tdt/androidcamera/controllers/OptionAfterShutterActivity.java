@@ -4,6 +4,8 @@ import javax.crypto.spec.IvParameterSpec;
 
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.album.ViewAlbumBySlide;
+import vn.tdt.androidcamera.constant.PathConstant;
+import vn.tdt.androidcamera.models.SharedPreferencesModels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +28,7 @@ public class OptionAfterShutterActivity extends Activity {
 	Button btnEdit;
 	Button btnSave;
 
+	SharedPreferencesModels prm;
 	Bitmap b;
 	String fileName;
 	String path;
@@ -57,6 +60,7 @@ public class OptionAfterShutterActivity extends Activity {
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 		tvNameOfPhoto = (TextView) findViewById(R.id.tvNameOfPhoto);
 		context = getApplicationContext();
+		prm = new SharedPreferencesModels(context);
 
 		Intent callerIntent = getIntent();
 		Bundle packageFromCaller = callerIntent
@@ -82,6 +86,7 @@ public class OptionAfterShutterActivity extends Activity {
 		public void onClick(View v) {
 			if (v.getId() == btnSave.getId()) {
 				Ultilities.takePictureHandler(b, fileName, path);
+				prm.saveStringValue(PathConstant.LASTEST_PHOTO, path+"/"+fileName+".jpg");
 				backMainActivity();
 			}
 			if (v.getId() == btnCancel.getId()) {

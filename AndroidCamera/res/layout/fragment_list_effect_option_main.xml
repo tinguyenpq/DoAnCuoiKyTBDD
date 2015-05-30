@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ButtonContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/ButtonContainer"
     android:orientation="vertical" >
-    <FrameLayout
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView1"
@@ -19,19 +22,19 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/ivOtherFeatured"
+                    android:id="@+id/ivNone"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/magic2" />
+                    android:src="@drawable/eft_none" />
 
                 <ImageView
                     android:id="@+id/ivMagicSkin"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/magic_skin" />
+                    android:src="@drawable/magic_skin2" />
 
                 <ImageView
-                    android:id="@+id/ivLightColor"
+                    android:id="@+id/ivOtherFeatured"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/light_color" />
@@ -40,21 +43,21 @@
                     android:id="@+id/ivHDR"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                     android:src="@drawable/hdr"  />
+                    android:src="@drawable/hdr" />
 
                 <ImageView
                     android:id="@+id/imgView5"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/eff01" />
+                    android:src="@drawable/eft_sketch" />
+
                 <ImageView
-                    android:id="@+id/imgView6"
+                    android:id="@+id/ivRotate"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/hdr" />
+                    android:src="@drawable/eft_rotate" />
             </LinearLayout>
         </HorizontalScrollView>
-    </FrameLayout>
-    
+    </LinearLayout>
 
 </LinearLayout>
