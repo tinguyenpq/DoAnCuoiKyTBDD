@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2.24"
             android:layout_gravity="center"
-            android:progressDrawable="@drawable/custom_seekbar_zoom_background"
+             android:progressDrawable="@drawable/progress_drawable"
             android:secondaryProgress="@android:color/transparent"
             android:thumb="@drawable/custom_seekbar_zoom" />
 
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:src="@drawable/shooting_normal" />
+            android:src="@drawable/custom_shooting" />
     </LinearLayout>
 
 </LinearLayout>

@@ -39,6 +39,12 @@ import android.widget.TextView;
 
 public class PhotoEditorMain extends Activity {
 
+	public final static String BRIGHTNESS = "Brightness";
+	public final static String CONTRAST = "Contrast";
+	public final static String DEFAULT = "Features";
+	public final static String RED = "Red";
+	public final static String BLUE = "Blue";
+	public final static String GREEN = "Green";
 	// boolean customTitleSupported;
 	Context context;
 	SharedPreferencesModels prm;
@@ -57,7 +63,11 @@ public class PhotoEditorMain extends Activity {
 	ImageView ivMagicSkinWarm;
 	ImageView ivMagicSkinBW;
 	ImageView ivMagicSkinHot;
-	ImageView ivRedEffect;
+	ImageView ivContrast;
+	ImageView ivBrightness;
+	ImageView ivEffRed;
+	ImageView ivEffBlue;
+	ImageView ivEffGreen;
 	ImageView ivRotate;
 	ImageView ivRotateLeft;
 	ImageView ivRotateRight;
@@ -105,7 +115,12 @@ public class PhotoEditorMain extends Activity {
 		ivMagicSkinWarm = (ImageView) findViewById(R.id.ivMagicSkinWarm);
 		ivMagicSkinBW = (ImageView) findViewById(R.id.ivMagicSkinBW);
 		ivMagicSkinHot = (ImageView) findViewById(R.id.ivMagicSkinHot);
-		ivRedEffect = (ImageView) findViewById(R.id.ivRedEffect);
+		ivContrast = (ImageView) findViewById(R.id.ivContrast);
+		ivBrightness = (ImageView) findViewById(R.id.ivBrightness);
+		ivEffRed = (ImageView) findViewById(R.id.ivEffRed);
+		ivEffBlue = (ImageView) findViewById(R.id.ivEffBlue);
+		ivEffGreen = (ImageView) findViewById(R.id.ivEffGreen);
+
 		ivRotate = (ImageView) findViewById(R.id.ivRotate);
 		ivRotateLeft = (ImageView) findViewById(R.id.ivRotateLeft);
 		ivRotateRight = (ImageView) findViewById(R.id.ivRotateRight);
@@ -128,7 +143,11 @@ public class PhotoEditorMain extends Activity {
 		ivMagicSkinWarm.setOnClickListener(onClickEditorHandler);
 		ivMagicSkinBW.setOnClickListener(onClickEditorHandler);
 		ivMagicSkinHot.setOnClickListener(onClickEditorHandler);
-		ivRedEffect.setOnClickListener(onClickEditorHandler);
+		ivContrast.setOnClickListener(onClickEditorHandler);
+		ivBrightness.setOnClickListener(onClickEditorHandler);
+		ivEffRed.setOnClickListener(onClickEditorHandler);
+		ivEffBlue.setOnClickListener(onClickEditorHandler);
+		ivEffGreen.setOnClickListener(onClickEditorHandler);
 		ivRotate.setOnClickListener(onClickEditorHandler);
 		ivRotateLeft.setOnClickListener(onClickEditorHandler);
 		ivRotateRight.setOnClickListener(onClickEditorHandler);
@@ -196,7 +215,7 @@ public class PhotoEditorMain extends Activity {
 
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0) {
-			Ultilities.toastShow(context, "Done...", Gravity.CENTER);
+			// Ultilities.toastShow(context, "Done...", Gravity.CENTER);
 		}
 
 		@Override
@@ -209,9 +228,24 @@ public class PhotoEditorMain extends Activity {
 		public void onProgressChanged(SeekBar sb, int arg1, boolean arg2) {
 			int value = sb.getProgress();
 			int real = value - 255;
-			setNameOfFeature(real + "");
-			bmCurrentPhoto = PhotoEffectHandler.applySaturationFilter(
-					bmOriginPhoto, real);
+			if (tvNameOfFeature.getText().equals(BRIGHTNESS)) {
+				bmCurrentPhoto = PhotoEffectHandler.doBrightness(bmOriginPhoto,
+						real);
+			}
+			if (tvNameOfFeature.getText().equals(CONTRAST)) {
+				bmCurrentPhoto = PhotoEffectHandler.adjustedContrast(
+						bmOriginPhoto, (double) real);
+			}
+			if (tvNameOfFeature.getText().equals(RED)) {
+				bmCurrentPhoto = PhotoEffectHandler.createSepiaToningEffect(bmOriginPhoto, 1,real, 0, 0);
+			}
+			if (tvNameOfFeature.getText().equals(BLUE)) {
+				bmCurrentPhoto = PhotoEffectHandler.createSepiaToningEffect(bmOriginPhoto, 1,0, 0, real);
+			}
+			if (tvNameOfFeature.getText().equals(GREEN)) {
+				bmCurrentPhoto = PhotoEffectHandler.createSepiaToningEffect(bmOriginPhoto, 1,0,real, 0);
+			}
+			// setNameOfFeature(real + "");
 			ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 
 		}
@@ -306,19 +340,60 @@ public class PhotoEditorMain extends Activity {
 			}
 			if (v.getId() == ivOtherFeatured.getId()) {
 				setNameOfFeature("Features");
+				seekbarOption.setProgress(255);
 				showHideOptionTitleFrgament(false);
 				showHideEffectListFragment(false);
 				showHideOtherFeature(true);
 				showHideSaveOrDiscardEffect(true);
 			}
-			if (v.getId() == ivRedEffect.getId()) {
+			if (v.getId() == ivContrast.getId()) {
+				seekbarOption.setProgress(255);
+				tvNameOfFeature.setText(CONTRAST);
 				showHideSeekBarOption(true);
 				showHideOptionTitleFrgament(false);
 				showHideEffectListFragment(false);
-				showHideOtherFeature(false);
+				showHideOtherFeature(true);
 				showHideSaveOrDiscardEffect(true);
 			}
+			if (v.getId() == ivBrightness.getId()) {
+				seekbarOption.setProgress(255);
+				tvNameOfFeature.setText(BRIGHTNESS);
+				showHideSeekBarOption(true);
+				showHideOptionTitleFrgament(false);
+				showHideEffectListFragment(false);
+				showHideOtherFeature(true);
+				showHideSaveOrDiscardEffect(true);
+			}
+			if (v.getId() == ivEffRed.getId()) {
+				seekbarOption.setProgress(255);
+				tvNameOfFeature.setText(RED);
+				showHideSeekBarOption(true);
+				showHideOptionTitleFrgament(false);
+				showHideEffectListFragment(false);
+				showHideOtherFeature(true);
+				showHideSaveOrDiscardEffect(true);
+			}
+			if (v.getId() == ivEffBlue.getId()) {
+				seekbarOption.setProgress(255);
+				tvNameOfFeature.setText(BLUE);
+				showHideSeekBarOption(true);
+				showHideOptionTitleFrgament(false);
+				showHideEffectListFragment(false);
+				showHideOtherFeature(true);
+				showHideSaveOrDiscardEffect(true);
+			}
+			if (v.getId() == ivEffGreen.getId()) {
+				seekbarOption.setProgress(255);
+				tvNameOfFeature.setText(GREEN);
+				showHideSeekBarOption(true);
+				showHideOptionTitleFrgament(false);
+				showHideEffectListFragment(false);
+				showHideOtherFeature(true);
+				showHideSaveOrDiscardEffect(true);
+			}
+
 			if (v.getId() == ivRotate.getId()) {
+
 				showHideRotate(true);
 				showHideSeekBarOption(false);
 				showHideOptionTitleFrgament(false);
@@ -326,20 +401,21 @@ public class PhotoEditorMain extends Activity {
 				showHideOtherFeature(false);
 				showHideSaveOrDiscardEffect(true);
 			}
+
 			if (v.getId() == ivRotateLeft.getId()) {
-				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto,270);
+				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto, 270);
 				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 			}
 			if (v.getId() == ivRotateRight.getId()) {
-				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto,90);
+				bmCurrentPhoto = PhotoEffectHandler.rotate(bmCurrentPhoto, 90);
 				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 			}
 			if (v.getId() == ivRotateWidth.getId()) {
-				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto,2);
+				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto, 2);
 				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 			}
 			if (v.getId() == ivRotateHeight.getId()) {
-				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto,1);
+				bmCurrentPhoto = PhotoEffectHandler.flip(bmCurrentPhoto, 1);
 				ivPhotoViewer.setImageBitmap(bmCurrentPhoto);
 			}
 		}
@@ -485,6 +561,7 @@ public class PhotoEditorMain extends Activity {
 		showHideOptionTitleFrgament(true);
 		showHideEffectListFragment(true);
 		showHideMagicSkinOption(false);
+		showHideSeekBarOption(false);
 		showHideRotate(false);
 		showHideOtherFeature(false);
 		showHideSaveOrDiscardEffect(false);

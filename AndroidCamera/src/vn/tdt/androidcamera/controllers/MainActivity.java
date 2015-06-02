@@ -1,8 +1,7 @@
 package vn.tdt.androidcamera.controllers;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import vn.tdt.androidcamera.R;
 import vn.tdt.androidcamera.album.GalleryActivity;
@@ -31,7 +30,7 @@ import android.hardware.Camera.ShutterCallback;
 import android.media.AudioManager;
 import android.media.FaceDetector;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -146,6 +145,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
 		// Ultilities.toastShow(mContext,
 		// FileUltil.isFileExist(lastestPhotoTaken)+"", Gravity.CENTER);
+		// checkSdCard();
 		if (FileUltil.isFileExist(lastestPhotoTaken)) {
 			mImageGallery.setImageBitmap(Bitmap.createScaledBitmap(
 					BitmapHandler.convertImageToBitmap(lastestPhotoTaken), 64,
@@ -391,7 +391,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 									finish();
 								} else {
 									// save lastest photo to file
-									prm.saveStringValue(PathConstant.LASTEST_PHOTO,
+									prm.saveStringValue(
+											PathConstant.LASTEST_PHOTO,
 											fullPath);
 									Ultilities.takePictureHandler(b, fileName,
 											path);
@@ -570,7 +571,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
 			prm.saveIntValue(CAMERA_MODE, currentCameraId);
 			Log.d("--------camera id-----------", currentCameraId + "");
-			
+
 			Toast.makeText(getApplicationContext(), "BACK TO FRONT", 1000)
 					.show();
 			try {
@@ -598,7 +599,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 			currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
 			prm.saveIntValue(CAMERA_MODE, currentCameraId);
 			Log.d("--------camera id-----------", currentCameraId + "");
-			
+
 			Toast.makeText(getApplicationContext(), "FRONT TO BACK",
 
 			1000).show();
@@ -806,4 +807,41 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
 		prm.saveIntValue(CAMERA_MODE, 0);
 	}
 
+	public void checkSdCard() {
+		Boolean isSDPresent = android.os.Environment.getExternalStorageState()
+				.equals(android.os.Environment.MEDIA_MOUNTED);
+		String folderPath = "";
+		if (isSDPresent) {
+			try {
+				File sdPath = new File(Environment
+						.getExternalStorageDirectory().getAbsolutePath()
+						+ "/FolderName");
+				if (!sdPath.exists()) {
+					sdPath.mkdirs();
+					folderPath = sdPath.getAbsolutePath();
+				} else if (sdPath.exists()) {
+					folderPath = sdPath.getAbsolutePath();
+				}
+			} catch (Exception e) {
+
+			}
+			folderPath = Environment.getExternalStorageDirectory().getPath()
+					+ "/FolderName/";
+			Ultilities.toastShow(mContext, "sd card was mounted",
+					Gravity.CENTER);
+		} else {
+			try {
+				File cacheDir = new File(this.getCacheDir(), "FolderName/");
+				if (!cacheDir.exists()) {
+					cacheDir.mkdirs();
+					folderPath = cacheDir.getAbsolutePath();
+				} else if (cacheDir.exists()) {
+					folderPath = cacheDir.getAbsolutePath();
+				}
+			} catch (Exception e) {
+
+			}
+			Ultilities.toastShow(mContext, "no sdcard", Gravity.CENTER);
+		}
+	}
 }

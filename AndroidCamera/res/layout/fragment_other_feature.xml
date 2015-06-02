@@ -3,48 +3,49 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     style="@style/ButtonContainer"
     android:orientation="vertical" >
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="5" >
 
             <ImageView
-                android:id="@+id/ivRedEffect"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/magic_skin_natural" />
+                android:id="@+id/ivContrast"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/contrast" />
 
             <ImageView
-                android:id="@+id/mg2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/magic_skin_blue" />
+                android:id="@+id/ivBrightness"
+                 android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/brightness" />
 
             <ImageView
-                android:id="@+id/mg3"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/magic_skin_warm" />
+                android:id="@+id/ivEffRed"
+                 android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/eft_red" />
 
             <ImageView
-                android:id="@+id/mg4"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/magic_skin_bw" />
+                android:id="@+id/ivEffBlue"
+                 android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/eft_blue" />
 
             <ImageView
-                android:id="@+id/mg5"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/magic_skin_hot" />
+                android:id="@+id/ivEffGreen"
+                 android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/eft_green" />
         </LinearLayout>
-    </HorizontalScrollView>
 
 </LinearLayout>

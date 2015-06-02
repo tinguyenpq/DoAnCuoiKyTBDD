@@ -40,16 +40,16 @@
                     android:src="@drawable/light_color" />
 
                 <ImageView
-                    android:id="@+id/ivHDR"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/hdr" />
-
-                <ImageView
                     android:id="@+id/imgView5"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/eft_sketch" />
+
+                <ImageView
+                    android:id="@+id/ivHDR"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/hdr" />
 
                 <ImageView
                     android:id="@+id/ivRotate"

@@ -7,6 +7,9 @@
     <SeekBar
         android:id="@+id/seekbarOption"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:progressDrawable="@drawable/progress_drawable"
+        android:thumb="@drawable/thumb_drawable" />
 
 </LinearLayout>
